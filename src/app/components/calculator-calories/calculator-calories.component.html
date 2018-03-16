@@ -1,0 +1,24 @@
+<!--<app-banner [backgroundImage]="'./../../../assets/numbers.jpg'"></app-banner>-->
+<div class="">
+  <div class="">
+    <div class="">
+      <div class="">
+        Wskaźnik podstawowej przemiany materii - BMR
+      </div>
+      <div class="">
+        <app-calculator-calories-form (onCalculate)="setCalories($event)"></app-calculator-calories-form>
+      </div>
+      <div class="">
+        <h5>Wyliczone wartości na dzień aktywności:</h5>
+        <ng-container *ngIf="allCalories">
+          <div class=""> bmr: {{allCalories.bmr}} kcal </div>
+          <div class="">z wysiłku aerobowego: {{allCalories.teaAero}} kcal </div>
+          <div class="">z wysiłku siłowego: {{allCalories.teaGym}} kcal  </div>
+          <div class="">neat: {{allCalories.neat}} kcal  </div>
+          <div class="">tef:  {{allCalories.tef}} kcal </div>
+          <div class="">SUMA: {{allCalories.all}} kcal <br /></div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
