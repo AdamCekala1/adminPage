@@ -86,4 +86,8 @@ export class CONSTANTS {
     [intensityType.MEDIUM]: 'Srednie',
     [intensityType.HARD]: 'Ciężkie',
   };
+
+  public static REGEX = {
+    NUMBER_ONLY: '/^\\d+$/'
+  };
 }

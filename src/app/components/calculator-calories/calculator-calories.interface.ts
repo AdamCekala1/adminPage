@@ -6,15 +6,18 @@ export interface IntensityDetails {
   intensity?: intensityType;
 }
 
-export interface CalculatorInformation {
+export interface CalculatorInformation extends UserTrainings {
   isMen: boolean;
   age: number;
   weigth: number;
   height: number;
   builType: bodyType;
+  calories?: Calories;
+}
+
+export interface UserTrainings {
   aerobicTraining: IntensityDetails[];
   gymTraining: IntensityDetails[];
-  calories?: Calories;
 }
 
 export interface Calories {

@@ -5,6 +5,7 @@ import { CalculatorCaloriesComponent } from './calculator-calories.component';
 import { SharedModule } from '../../shared/shared.module';
 import { CalculatorCaloriesFormComponent } from './calculator-calories-form/calculator-calories-form.component';
 import { CalculatorCaloriesService } from './calculator-calories.service';
+import { CalculatorCaloriesFormTrainingComponent } from './calculator-calories-form-training/calculator-calories-form-training.component';
 
 @NgModule({
   imports: [
@@ -12,7 +13,8 @@ import { CalculatorCaloriesService } from './calculator-calories.service';
   ],
   declarations: [
     CalculatorCaloriesComponent,
-    CalculatorCaloriesFormComponent
+    CalculatorCaloriesFormComponent,
+    CalculatorCaloriesFormTrainingComponent
   ],
     providers: [CalculatorCaloriesService],
   exports: [CalculatorCaloriesComponent]

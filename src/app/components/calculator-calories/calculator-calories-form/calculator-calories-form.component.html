@@ -1,178 +1,59 @@
 <form [formGroup]="calculatorForm"
-      class=""
       novalidate>
-  <div class="">
-    <label>Mężczyzna</label>
-    <input class=""
-           [ngModel]="userInformation.isMen"
-           type="checkbox"
-           formControlName="isMen">
-    <label>Kobieta</label>
-  </div>
-  <div class="">
-    <label>Wiek</label>
-    <div class="">
-      <input class=""
-             placeholder="Wiek"
-             [ngClass]="{'invalid': !checkIsValid('age')}"
-             type="number"
-             formControlName="age">
-      <p class="">Wiek</p>
+  <h3>Dane pomiarowe:</h3>
+  <div>
+    <h5>Wybierz płeć:</h5>
+    <div class="radio">
+      <label>
+        <input class=""
+               type="radio"
+               name="isMen"
+               formControlName="isMen">
+        Mężczyzna {{getControlValue('isMen')}}
+      </label>
     </div>
-    <label>lat</label>
-  </div>
-  <div class="">
-    <label>Waga</label>
-    <div class="">
-      <input class=""
-             placeholder="Waga"
-             type="number"
-             [ngClass]="{'invalid': !checkIsValid('weigth')}"
-             formControlName="weigth">
-      <p class="">Waga</p>
+    <div class="radio">
+      <label>
+        <input class=""
+               name="isMen"
+               type="radio"
+               formControlName="isMen">
+        Kobieta
+      </label>
     </div>
-    <label>kg</label>
   </div>
-  <div class="">
-    <label>Wysokość</label>
-    <div class="">
-      <input class=""
-             type=""
-             [ngClass]="{'invalid': !checkIsValid('height')}"
-             placeholder="Wysokość"
-             formControlName="height">
-      <p class="">Wysokość</p>
-    </div>
-    <label>cm</label>
+  <div class="form-group label-floating">
+    <label class="control-label">Wiek (lata)</label>
+    <input class="form-control"
+           formControlName="age">
   </div>
-  <div class="">
+  <div class="form-group label-floating">
+    <label class="control-label">Waga (kg)</label>
+    <input class="form-control"
+           formControlName="weigth">
+  </div>
+  <div class="form-group label-floating">
+    <label class="control-label">Wzrost (cm)</label>
+    <input class="form-control"
+           formControlName="height">
+  </div>
+  <div class="btn-group">
     <button *ngFor="let type of bodyTypesStringArray"
-            [ngClass]="userBuildTypeClass(type)"
-            (click)="builTypeHandler(type)"
-            class="">
-      {{getBodyTypeReadable(type)}}
+            [class.btn-primary]="bodyType[getControlValue('buildType')] === type"
+            (click)="setControlValue('buildType', bodyType[type])"
+            class="btn ">
+      {{bodyTypeReadable[bodyType[type]]}}
     </button>
   </div>
-  Trening:
-  <div class="">
-    <label>Aeroby</label>
-    <div class="">
-      <input class=""
-             type="number"
-             placeholder="Czas"
-             formControlName="aerobicTraining">
-      <p class="">Czas aerobów</p>
-    </div>
-    <label>min</label>
-    <!-- dropdown -->
-    <div>
-      <button class=""
-              type="button">
-        {{getPeriodReadableActive(singleActivity.aerobicTraining.period)}}
-        <i class="fa fa-caret-down"
-           aria-hidden="true">
-        </i>
-      </button>
-      <div class=""
-           role="menu">
-        <div class="">
-          <a *ngFor="let type of periodTypesStringArray"
-             (click)="addPeriod(type, 'aerobicTraining')"
-             class="">
-            {{getPeriodReadable(type)}}
-          </a>
-        </div>
-      </div>
-    </div>
-    <!---->
-    <!-- dropdown -->
-    <div>
-      <button class=""
-              type="button">
-        {{getIntensityReadableActive(singleActivity.aerobicTraining.intensity)}}
-        <!--caret down-->
-        <i class=""
-           aria-hidden="true"></i>
-      </button>
-      <div class=""
-           role="menu">
-        <div class="">
-          <a *ngFor="let type of intensityTypesStringArray"
-             (click)="addIntensity(type, 'aerobicTraining')"
-             class="">
-            {{getIntensityReadable(type)}}
-          </a>
-        </div>
-      </div>
-    </div>
-    <!---->
-    <button type="button"
-            (click)="addAnotherActivity('aerobicTraining')"
-            class="">
-      Dodaj aktywność
-    </button>
-  </div>
-  <ng-container *ngIf="userInformation.aerobicTraining.length">
-    <ul>
-      <li *ngFor="let activity of userInformation.aerobicTraining">
-        {{readActivity(activity)}}
-      </li>
-    </ul>
-  </ng-container>
-  <div class="">
-    <label>Siłownia</label>
-    <div class="">
-      <input class=""
-             type="number"
-             placeholder="Czas"
-             formControlName="gymTraining">
-      <p class="">Czas na siłowni</p>
-    </div>
-    <label>min</label>
-    <!--dropdown-->
-    <div class="">
-      <button class=""
-              type="button">
-        {{getPeriodReadableActive(singleActivity.gymTraining.period)}} <i class="fa fa-caret-down" aria-hidden="true"></i>
-      </button>
-      <div role="menu">
-        <div class="">
-          <a *ngFor="let type of periodTypesStringArray"
-             (click)="addPeriod(type, 'gymTraining')">
-            {{getPeriodReadable(type)}}
-          </a>
-        </div>
-      </div>
-    </div>
-    <div>
-      <button type="button">
-        {{getIntensityReadableActive(singleActivity.aerobicTraining.intensity)}}
-        <i aria-hidden="true">
-        </i>
-      </button>
-      <div role="menu">
-        <div class="">
-          <a *ngFor="let type of intensityTypesStringArray"
-             (click)="addIntensity(type, 'gymTraining')"
-             class="">
-            {{getIntensityReadable(type)}}
-          </a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <button type="button"
-          (click)="addAnotherActivity('gymTraining')">
-    Dodaj aktywność
-  </button>
-  <ng-container *ngIf="userInformation.gymTraining.length">
-    <ul>
-      <li *ngFor="let activity of userInformation.gymTraining">
-        {{readActivity(activity)}}
-      </li>
-    </ul>
-  </ng-container>
+  <h3>Trening:</h3>
+  <app-calculator-calories-form-training [title]="'Aero'"
+                                         [intensityDetails]="userTrainings.aerobicTraining"
+                                         (onAddIntensity)="addActivity($event, 'aerobicTraining')"></app-calculator-calories-form-training>
+  <app-calculator-calories-form-training [title]="'Gym'"
+                                         [intensityDetails]="userTrainings.gymTraining"
+                                         (onAddIntensity)="addActivity($event, 'gymTraining')"></app-calculator-calories-form-training>
   <button type="submit"
+          class="btn btn-info btn-block"
           (click)="setCalories()">
     Pokaz kcal!
   </button>
