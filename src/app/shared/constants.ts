@@ -42,12 +42,12 @@ export class CONSTANTS {
       }
     },
     ADDITIONAL: {
-      AERO_KCAL: {
+      AERO: { // kcal
         [intensityType.LIGHT]: 5,
         [intensityType.MEDIUM]: 35,
         [intensityType.HARD]: 180
       },
-      GYM_PERCENT: {
+      GYM: { // percent
         [intensityType.LIGHT]: 4,
         [intensityType.MEDIUM]: 5.5,
         [intensityType.HARD]: 7
@@ -88,6 +88,6 @@ export class CONSTANTS {
   };
 
   public static REGEX = {
-    NUMBER_ONLY: '/^\\d+$/'
+    NUMBER_ONLY: /^\d+$/
   };
 }

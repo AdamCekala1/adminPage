@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
-import { bodyType, intensityType, periodType } from '../../../shared/enums/calculator-calories-form.enums';
-import { UtilsService } from '../../../core/providers/utils/utils.service';
-import { IntensityDetails } from '../calculator-calories.interface';
+import { bodyType, intensityType, periodType } from '../../../../shared/enums/calculator-calories-form.enums';
+import { UtilsService } from '../../../../core/providers/utils/utils.service';
+import { IntensityDetails } from '../../calculator-calories.interface';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { CONSTANTS } from '../../../shared/constants';
+import { CONSTANTS } from '../../../../shared/constants';
 
 @Component({
   selector: 'app-calculator-calories-form-training',

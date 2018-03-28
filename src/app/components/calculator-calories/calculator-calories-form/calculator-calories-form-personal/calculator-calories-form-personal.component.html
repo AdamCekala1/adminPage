@@ -1,0 +1,53 @@
+<form [formGroup]="personalForm"
+      novalidate>
+  <h3>Dane pomiarowe:</h3>
+  <div>
+    <h5>Wybierz płeć:</h5>
+    <div class="radio">
+      <label>
+        <input class=""
+               type="radio"
+               name="isMen"
+               value="true"
+               formControlName="isMen">
+        Mężczyzna {{getControlValue('isMen')}}
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input class=""
+               name="isMen"
+               type="radio"
+               value="false"
+               formControlName="isMen">
+        Kobieta
+      </label>
+    </div>
+  </div>
+  <div class="form-group label-floating"
+       [class.has-error]="checkIsInvalid('age')">
+    <label class="control-label">Wiek (lata)</label>
+    <input class="form-control"
+           formControlName="age">
+  </div>
+  <div class="form-group label-floating"
+       [class.has-error]="checkIsInvalid('weigth')">
+    <label class="control-label">Waga (kg)</label>
+    <input class="form-control"
+           formControlName="weigth">
+  </div>
+  <div class="form-group label-floating"
+       [class.has-error]="checkIsInvalid('height')">
+    <label class="control-label">Wzrost (cm)</label>
+    <input class="form-control"
+           formControlName="height">
+  </div>
+  <div class="btn-group">
+    <button *ngFor="let type of bodyTypesStringArray"
+            [class.btn-primary]="bodyType[getControlValue('buildType')] === type"
+            (click)="setControlValue('buildType', bodyType[type])"
+            class="btn ">
+      {{bodyTypeReadable[bodyType[type]]}}
+    </button>
+  </div>
+</form>

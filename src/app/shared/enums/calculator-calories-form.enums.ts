@@ -15,3 +15,8 @@ export enum intensityType {
   MEDIUM,
   HARD
 }
+
+export enum ActivityType {
+  AERO = 'AERO',
+  GYM = 'GYM'
+}
