@@ -1,0 +1,18 @@
+$box-shadow-default: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
+$box-shadow-pagination: rgba(0, 0, 0, 0.12) 0 1px 6px, rgba(0, 0, 0, 0.12) 0 1px 4px;
+
+
+$col-lg: 992px;
+$col-md: 768px;
+$col-sm: 576px;
+$col-xs: 400px;
+$col-xl: 1200px;
+
+$color-primary: #9c27b0;
+$color-default: #eee;
+
+$margins: (0, 5, 10, 15, 20, 30);
+$paddings: (0, 5, 10, 15, 20, 30);
+$widths: (0, 5, 10, 15, 20, 30);
+
+@import './mixins';

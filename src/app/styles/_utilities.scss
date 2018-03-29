@@ -1,0 +1,73 @@
+@import './config';
+
+@each $margin in $margins {
+  .margin-bottom-#{$margin} {
+    margin-bottom: #{$margin}px;
+  }
+
+  .margin-top-#{$margin} {
+    margin-top: #{$margin}px;
+  }
+
+  .margin-rigth-#{$margin} {
+    margin-right: #{$margin}px;
+  }
+
+  .margin-left-#{$margin} {
+    margin-left: #{$margin}px;
+  }
+
+  .margin-#{$margin} {
+    margin: #{$margin}px;
+  }
+}
+
+@each $margin in $margins {
+  .margin-bottom-#{$margin}-minus {
+    margin-bottom: -#{$margin}px;
+  }
+
+  .margin-top-#{$margin}-minus {
+    margin-top: -#{$margin}px;
+  }
+
+  .margin-rigth-#{$margin}-minus {
+    margin-right: -#{$margin}px;
+  }
+
+  .margin-left-#{$margin}-minus {
+    margin-left: -#{$margin}px;
+  }
+
+  .margin-#{$margin}-minus {
+    margin: -#{$margin}px;
+  }
+}
+
+@each $padding in $paddings {
+  .padding-bottom-#{$padding} {
+    padding-bottom: #{$padding}px;
+  }
+
+  .padding-top-#{$padding} {
+    padding-top: #{$padding}px;
+  }
+
+  .padding-rigth-#{$padding} {
+    padding-right: #{$padding}px;
+  }
+
+  .padding-left-#{$padding} {
+    padding-left: #{$padding}px;
+  }
+
+  .padding-#{$padding} {
+    padding: #{$padding}px;
+  }
+}
+
+@each $width in $widths {
+  .width-#{$width} {
+    width: percentage($width / 100);
+  }
+}

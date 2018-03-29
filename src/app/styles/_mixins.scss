@@ -1,0 +1,113 @@
+@mixin transition($element: all, $time: 0.3s, $mode: ease-in-out){
+  -webkit-transition: $element $time $mode;
+  -moz-transition: $element $time $mode;
+  -ms-transition: $element $time $mode;
+  -o-transition: $element $time $mode;
+  transition: $element $time $mode;
+}
+
+@mixin custom-button-color(
+  $color: #0000ff,
+  $color-hover: $color,
+  $color-opacity: 0.8,
+  $background-opacity: 0.06,
+  $background-hover-opacity: 0.3){
+  color: rgba($color, $color-opacity);
+  background: rgba($color, $background-opacity);
+
+  &:not(:disabled):hover{
+    color: $color-hover;
+    background: rgba($color, $background-hover-opacity);
+  }
+}
+
+@mixin width($media) {
+  @if $media == xs {
+    @media (max-width:$col-sm - 1) { @content }
+  }
+
+  @else if $media == sm {
+    @media (min-width: $col-sm) and (max-width: $col-md - 1) { @content }
+  }
+
+  @else if $media == md {
+    @media (min-width: $col-md) and (max-width: $col-lg - 1) { @content }
+  }
+
+  @else if $media == lg {
+    @media (min-width: $col-lg) and (max-width: $col-xl - 1) { @content }
+  }
+
+  @else if $media == xl {
+    @media (min-width: $col-xl) and (max-width: $col-xxl - 1) { @content }
+  }
+
+  @else if $media == xxl {
+    @media (min-width: $col-xxl) { @content }
+  }
+}
+
+@mixin width-from($media) {
+  @if $media == xs {
+    @media (min-width: $col-xs) { @content }
+  }
+
+  @else if $media == sm {
+    @media (min-width: $col-sm) { @content }
+  }
+
+  @else if $media == md {
+    @media (min-width: $col-md) { @content }
+  }
+
+  @else if $media == lg {
+    @media (min-width: $col-lg) { @content }
+  }
+
+  @else if $media == xlg {
+    @media (min-width: $col-xl) { @content }
+  }
+
+  @else if $media == xxl {
+    @media (min-width: $col-xxl) { @content }
+  }
+}
+
+@mixin width-to($media) {
+  @if $media == xs {
+    @media (max-width: $col-xs - 1) { @content }
+  }
+
+  @else if $media == sm {
+    @media (max-width: $col-sm - 1) { @content }
+  }
+
+  @else if $media == md {
+    @media (max-width: $col-md - 1) { @content }
+  }
+
+  @else if $media == lg {
+    @media (max-width: $col-lg - 1) { @content }
+  }
+
+  @else if $media == xl {
+    @media (max-width: $col-xl - 1) { @content }
+  }
+
+  @else if $media == xxl {
+    @media (max-width: $col-xxl - 1) { @content }
+  }
+}
+
+@mixin background($color: black, $opacity: 0.5) {
+  &:after {
+    content: '';
+    position: absolute;
+    z-index: 3;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: rgba($color, $opacity);
+  }
+}
