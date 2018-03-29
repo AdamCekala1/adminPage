@@ -24,11 +24,13 @@ export class CalculatorCaloriesFormPersonalComponent implements OnInit {
               private utilsService: UtilsService) {
   }
 
-  checkIsInvalid(name: string): boolean {
-    console.log(name, this.utilsService.checkInputIsInvalid(this.getControl(name)));
-
-    return this.utilsService.checkInputIsInvalid(this.getControl(name));
-  }
+  // checkIsInvalid(name: string): boolean {
+  //   if(name === 'age') {
+  //     console.log(this.getControl(name))
+  //     console.log(this.utilsService.checkInputIsInvalid(this.getControl(name)))
+  //   }
+  //   return this.utilsService.checkInputIsInvalid(this.getControl(name));
+  // }
 
   setPersonalDetails() {
     if (this.personalForm.valid) {
@@ -69,7 +71,7 @@ export class CalculatorCaloriesFormPersonalComponent implements OnInit {
 
   private watchFormUpdate() {
     // todo: unsubscribe
-    this.personalForm.valueChanges.subscribe(() => {
+    this.personalForm.valueChanges.debounceTime(300).subscribe(() => {
       this.setPersonalDetails();
     });
   }

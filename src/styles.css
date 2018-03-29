@@ -8,3 +8,16 @@
     margin-left: 0;
     margin-right: 0;
 }
+
+/* custom invalid styles -- defaults doesnt work */
+.form-group.is-invalid .form-control {
+    box-shadow: none;
+}
+.form-group.is-invalid.is-focused .form-control {
+    background-image: linear-gradient(#f44336, #f44336), linear-gradient(#D2D2D2, #D2D2D2);
+}
+.form-group.is-invalid label.control-label,
+.form-group.is-invalid .help-block {
+    color: #f44336;
+}
+/* end */
