@@ -1,0 +1,4 @@
+.nav {
+  display: grid;
+  grid-auto-flow: row;
+}

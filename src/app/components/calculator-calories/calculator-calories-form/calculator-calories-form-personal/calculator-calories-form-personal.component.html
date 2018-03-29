@@ -10,7 +10,7 @@
                name="isMen"
                [value]="true"
                formControlName="isMen">
-        Mężczyzna {{getControlValue('isMen')}}
+        Mężczyzna
       </label>
     </div>
     <div class="radio">
@@ -24,26 +24,29 @@
       </label>
     </div>
   </div>
-  <div appInvalidInput class="form-group label-floating">
-    <label class="control-label">Wiek (lata)</label>
+  <div appInvalidInput class="form-group">
+    <label class="form-control-label">Wiek (lata)</label>
     <input class="form-control"
            formControlName="age">
+    <div class="invalid-feedback">Sorry, that username's taken. Try another?</div>
   </div>
-  <div appInvalidInput class="form-group label-floating">
-    <label class="control-label">Waga (kg)</label>
+  <div appInvalidInput class="form-group">
+    <label class="form-control-label">Waga (kg)</label>
     <input class="form-control"
            formControlName="weigth">
+    <div class="invalid-feedback">Sorry, that username's taken. Try another?</div>
   </div>
-  <div appInvalidInput class="form-group label-floating">
-    <label class="control-label">Wzrost (cm)</label>
+  <div appInvalidInput class="form-group">
+    <label class="form-control-label">Wzrost (cm)</label>
     <input class="form-control"
            formControlName="height">
   </div>
   <div class="btn-group">
     <button *ngFor="let type of bodyTypesStringArray"
-            [class.btn-primary]="bodyType[getControlValue('buildType')] === type"
-            (click)="setControlValue('buildType', bodyType[type])"
-            class="btn ">
+            class="btn"
+            [class.btn-outline-primary]="bodyType[getControlValue('buildType')] === type"
+            [class.btn-outline-dark]="bodyType[getControlValue('buildType')] !== type"
+            (click)="setControlValue('buildType', bodyType[type])">
       {{bodyTypeReadable[bodyType[type]]}}
     </button>
   </div>

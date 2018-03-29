@@ -10,7 +10,7 @@ import {
   selector: '[appInvalidInput]',
 })
 export class InvalidInputDirective implements OnChanges {
-  private invalidClass: string = 'is-invalid';
+  private invalidClass: string = 'text-danger';
   private invalidClassAngular: string = 'ng-invalid';
 
   constructor(private el: ElementRef, private renderer: Renderer2) {

@@ -19,7 +19,7 @@ import { CalculatorCaloriesFormPersonalComponent } from './calculator-calories-f
     CaloriesCalculatorDisplayComponent,
     CalculatorCaloriesFormPersonalComponent
   ],
-    providers: [CalculatorCaloriesService],
+  providers: [CalculatorCaloriesService],
   exports: [CalculatorCaloriesComponent]
 })
 export class CalculatorCaloriesModule { }

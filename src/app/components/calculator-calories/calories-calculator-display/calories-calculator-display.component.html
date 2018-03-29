@@ -1,7 +1,9 @@
 <h5>Wyliczone wartości na dzień aktywności:</h5>
-<div class="">bmr: {{allCalories?.bmr}} kcal </div>
-<div class="">z wysiłku aerobowego: {{allCalories?.teaAero}} kcal </div>
-<div class="">z wysiłku siłowego: {{allCalories?.teaGym}} kcal  </div>
-<div class="">neat: {{allCalories?.neat}} kcal  </div>
-<div class="">tef:  {{allCalories?.tef}} kcal </div>
-<div class="">SUMA: {{allCalories?.all}} kcal <br /></div>
+<ng-container *ngIf="allCalories">
+    <div class="">bmr: {{allCalories?.bmr}} kcal </div>
+    <div class="">z wysiłku aerobowego: {{allCalories?.teaAero}} kcal </div>
+    <div class="">z wysiłku siłowego: {{allCalories?.teaGym}} kcal  </div>
+    <div class="">neat: {{allCalories?.neat}} kcal  </div>
+    <div class="">tef:  {{allCalories?.tef}} kcal </div>
+    <div class=""><b>SUMA: {{allCalories?.all}} kcal </b><br /></div>
+</ng-container>

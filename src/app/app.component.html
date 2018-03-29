@@ -1,16 +1,17 @@
 <div class="wrapper">
-    <div class="sidebar" data-color='red' data-image="">
-        <!-- SIDEBAR ## NAVBAR MOBILE -->
-        <app-sidebar></app-sidebar>
-        <div class="sidebar-background" style="background-image: url(../assets/img/sidebar-4.jpg)"></div>
+  <div class="sidebar" data-color='red' data-image="">
+    <!-- SIDEBAR ## NAVBAR MOBILE -->
+    <app-sidebar></app-sidebar>
+    <div class="sidebar-background" style="background-image: url(../assets/img/sidebar-4.jpg)"></div>
+  </div>
+  <div class="main-panel">
+    <app-navbar></app-navbar>
+    <div class="main-panel-content">
+      <router-outlet></router-outlet>
     </div>
-    <div class="main-panel">
-        <app-navbar></app-navbar>
-        <div class="main-panel-content">
-            <router-outlet></router-outlet>
-        </div>
-        <div>
-            <app-footer></app-footer>
-        </div>
+    <div>
+      <app-footer></app-footer>
     </div>
+  </div>
 </div>
+

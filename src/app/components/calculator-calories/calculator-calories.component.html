@@ -12,8 +12,7 @@
         <app-calculator-calories-form (onCalculate)="setCalories($event)"></app-calculator-calories-form>
       </div>
       <div class="col-xs-12 col-md-3">
-        <app-calories-calculator-display *ngIf="allCalories"
-                                         [allCalories]="allCalories"></app-calories-calculator-display>
+        <app-calories-calculator-display [allCalories]="allCalories"></app-calories-calculator-display>
       </div>
     </div>
   </div>

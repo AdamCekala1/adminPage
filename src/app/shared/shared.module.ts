@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { InvalidInputDirective } from './directives/invalid-input.directive';
+import { BsDropdownModule } from 'ngx-bootstrap';
 
 @NgModule({
   imports: [
@@ -13,6 +14,7 @@ import { InvalidInputDirective } from './directives/invalid-input.directive';
     ReactiveFormsModule,
     FormsModule,
     HttpModule,
+    BsDropdownModule.forRoot(),
     RouterModule
   ],
   exports: [
@@ -21,6 +23,7 @@ import { InvalidInputDirective } from './directives/invalid-input.directive';
     ReactiveFormsModule,
     FormsModule,
     InvalidInputDirective,
+    BsDropdownModule,
     HttpModule,
     RouterModule
   ],

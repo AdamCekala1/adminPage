@@ -1,0 +1,12 @@
+.main-panel-content {
+  padding: 70px 30px;
+
+  @media (min-width: 768px) {
+    padding: 100px 70px;
+  }
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 270px calc(100% - 270px);
+}

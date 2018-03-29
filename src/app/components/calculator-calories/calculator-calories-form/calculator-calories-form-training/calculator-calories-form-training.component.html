@@ -1,37 +1,47 @@
 <form [formGroup]="activityform"
-      class="col-xs-12">
+      class="col-xs-12 margin-bottom-20">
   <h4>{{title}}</h4>
-  <div class="row">
-    <div class="form-group label-floating col-xs-12 col-lg-6">
+  <div class="row margin-bottom-20">
+    <div class="form-group margin-bottom-0 col-xs-12 col-lg-6">
       <label class="control-label">Czas {{title}} (min)</label>
       <input class="form-control"
              formControlName="time">
     </div>
-    <div class="dropdown col-xs-12 col-sm-6 col-lg-3">
-      <a class="btn dropdown-toggle btn-md btn-block"
-         data-toggle="dropdown">
+    <div class="row col-xs-12 col-sm-6 col-lg-3"
+         dropdown>
+      <button dropdownToggle
+              type="button"
+              class="btn btn-link dropdown-toggle">
         {{periodsReadable[getFormValue('period')]}}
-        <b class="caret"></b>
-      </a>
-      <ul class="dropdown-menu">
+        <span class="caret"></span>
+      </button>
+      <ul *dropdownMenu
+          class="dropdown-menu"
+          role="menu">
         <li *ngFor="let type of periodTypesStringArray"
-            (click)="setControlValue(periodType[type], 'period')">
-          <a>
+            (click)="setControlValue(periodType[type], 'period')"
+            role="menuitem">
+          <a class="dropdown-item">
             {{periodsReadable[periodType[type]]}}
           </a>
         </li>
       </ul>
     </div>
-    <div class="dropdown col-xs-12 col-sm-6 col-lg-3">
-      <a class="btn dropdown-toggle btn-md btn-block"
-         data-toggle="dropdown">
+    <div class="row col-xs-12 col-sm-6 col-lg-3"
+         dropdown>
+      <button dropdownToggle
+              type="button"
+              class="btn btn-link dropdown-toggle">
         {{intensitTypeReadable[getFormValue('intensity')]}}
-        <b class="caret"></b>
-      </a>
-      <ul class="dropdown-menu">
+        <span class="caret"></span>
+      </button>
+      <ul *dropdownMenu
+          class="dropdown-menu"
+          role="menu">
         <li *ngFor="let type of intensityTypesStringArray"
-            (click)="setControlValue(intensityType[type], 'intensity')">
-          <a>
+            (click)="setControlValue(intensityType[type], 'intensity')"
+            role="menuitem">
+          <a class="dropdown-item">
             {{intensitTypeReadable[intensityType[type]]}}
           </a>
         </li>
@@ -40,7 +50,7 @@
   </div>
   <button type="button"
           (click)="addActivity()"
-          class="btn btn-primary btn-block">
+          class="btn btn-outline-primary btn-block">
     Dodaj aktywność
   </button>
   <ng-container *ngIf="intensityDetails?.length">

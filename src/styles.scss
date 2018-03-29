@@ -1,0 +1,68 @@
+@import './app/styles/config';
+@import './app/styles/utilities';
+
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.dropdown-menu {
+  cursor: pointer;
+}
+
+input.form-control {
+  border-radius: 0;
+  border: none;
+  border-bottom: 1px solid #ced4da;
+}
+
+// sidebar
+.sidebar {
+  background: #fff;
+  -webkit-box-shadow: 0 16px 38px -12px rgba(0,0,0,.56), 0 4px 25px 0 rgba(0,0,0,.12), 0 8px 10px -5px rgba(0,0,0,.2);
+  box-shadow: 0 16px 38px -12px rgba(0,0,0,.56), 0 4px 25px 0 rgba(0,0,0,.12), 0 8px 10px -5px rgba(0,0,0,.2);
+}
+
+.sidebar .logo {
+  padding: 15px 0;
+  margin: 0;
+  display: block;
+  position: relative;
+  z-index: 4;
+}
+
+.sidebar .sidebar-wrapper {
+  position: relative;
+  height: calc(100vh - 75px);
+  overflow: auto;
+  z-index: 4;
+  padding-bottom: 30px;
+
+  .nav-item.active {
+    background: $color-default;
+
+    a {
+      color: $color-primary;
+    }
+  }
+
+  .nav-item {
+    font-weight: 600;
+
+    &:hover a{
+      color: $color-primary;
+    }
+
+    .nav-link {
+      padding: 25px;
+      display: flex;
+
+      p {
+        margin: 0;
+        margin-left: 15px;
+      }
+    }
+  }
+}
+// end
