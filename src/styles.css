@@ -21,3 +21,9 @@
     color: #f44336;
 }
 /* end */
+
+/* fix main panel scrolling */
+.main-panel {
+    height: auto;
+}
+/* end */

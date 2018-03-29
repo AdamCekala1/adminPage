@@ -13,7 +13,7 @@ export class CalculatorCaloriesFormComponent {
       aerobicTraining: [],
       gymTraining: []
   };
-  userDetails: UserDetails;
+  private userDetails: UserDetails;
   @Output() onCalculate: EventEmitter<Calories> = new EventEmitter();
 
   constructor(private calculatorService: CalculatorCaloriesService) {

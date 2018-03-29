@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { CalculatorCaloriesComponent } from './calculator-calories.component';
 
 import { SharedModule } from '../../shared/shared.module';

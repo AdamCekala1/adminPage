@@ -24,14 +24,6 @@ export class CalculatorCaloriesFormPersonalComponent implements OnInit {
               private utilsService: UtilsService) {
   }
 
-  // checkIsInvalid(name: string): boolean {
-  //   if(name === 'age') {
-  //     console.log(this.getControl(name))
-  //     console.log(this.utilsService.checkInputIsInvalid(this.getControl(name)))
-  //   }
-  //   return this.utilsService.checkInputIsInvalid(this.getControl(name));
-  // }
-
   setPersonalDetails() {
     if (this.personalForm.valid) {
       this.onChange.emit(this.personalForm.value);
