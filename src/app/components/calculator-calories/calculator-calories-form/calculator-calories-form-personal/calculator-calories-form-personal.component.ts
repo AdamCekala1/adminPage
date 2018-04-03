@@ -62,7 +62,6 @@ export class CalculatorCaloriesFormPersonalComponent implements OnInit {
   }
 
   private watchFormUpdate() {
-    // todo: unsubscribe
     this.personalForm.valueChanges.debounceTime(300).subscribe(() => {
       this.setPersonalDetails();
     });

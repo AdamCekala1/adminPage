@@ -24,22 +24,24 @@
       </label>
     </div>
   </div>
-  <div appInvalidInput class="form-group">
-    <label class="form-control-label">Wiek (lata)</label>
-    <input class="form-control"
-           formControlName="age">
-    <div class="invalid-feedback">Sorry, that username's taken. Try another?</div>
-  </div>
-  <div appInvalidInput class="form-group">
-    <label class="form-control-label">Waga (kg)</label>
-    <input class="form-control"
-           formControlName="weigth">
-    <div class="invalid-feedback">Sorry, that username's taken. Try another?</div>
-  </div>
-  <div appInvalidInput class="form-group">
-    <label class="form-control-label">Wzrost (cm)</label>
-    <input class="form-control"
-           formControlName="height">
+  <div class="row">
+    <div appInvalidInput class="col-xs-12 col-lg-4 form-group">
+      <label class="form-control-label">Wiek (lata)</label>
+      <input class="form-control"
+             formControlName="age">
+      <div class="invalid-feedback">Sorry, that username's taken. Try another?</div>
+    </div>
+    <div appInvalidInput class="col-xs-12 col-lg-4 form-group">
+      <label class="form-control-label">Waga (kg)</label>
+      <input class="form-control"
+             formControlName="weigth">
+      <div class="invalid-feedback">Sorry, that username's taken. Try another?</div>
+    </div>
+    <div appInvalidInput class="col-xs-12 col-lg-4 form-group">
+      <label class="form-control-label">Wzrost (cm)</label>
+      <input class="form-control"
+             formControlName="height">
+    </div>
   </div>
   <div class="btn-group">
     <button *ngFor="let type of bodyTypesStringArray"

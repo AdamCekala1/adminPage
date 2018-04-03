@@ -6,8 +6,8 @@ export enum periodType {
 
 export enum bodyType {
   ENDO,
-  EKTO,
-  MEZO
+  MEZO,
+  EKTO
 }
 
 export enum intensityType {

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
+import { remove, uniqueId } from 'lodash';
 
 import { Calories, IntensityDetails, UserDetails, UserTrainings } from '../calculator-calories.interface';
 import { CalculatorCaloriesService } from '../calculator-calories.service';
@@ -25,7 +26,13 @@ export class CalculatorCaloriesFormComponent {
   }
 
   addActivity(data: IntensityDetails, name: string) {
-    this.userTrainings[name].push(data);
+    this.userTrainings[name].push({...data, index: uniqueId(name)});
+    this.setCalories();
+  }
+
+  removeActivity(data: IntensityDetails, name: string) {
+    remove(this.userTrainings[name], data);
+
     this.setCalories();
   }
 

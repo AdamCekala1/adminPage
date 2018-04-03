@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {Observable} from "rxjs/Observable";
+
+import {BreakpointsService} from "../../core/providers/breakpoints/breakpoints.service";
+import { Bind } from "lodash-decorators";
 
 declare const $: any;
 declare interface RouteInfo {
@@ -21,13 +25,34 @@ export const ROUTES: RouteInfo[] = [
 @Component({
   selector: 'app-sidebar',
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css']
+  styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
   menuItems: RouteInfo[] = ROUTES;
-  isMobileMenu: boolean = true; // todo: implement
+  isVisible: boolean;
+  isDesktopMenu: boolean; // todo: implement
+
+  constructor(private breakpointsService: BreakpointsService) {
+  }
+
+  toggleNavbar() {
+    this.isVisible = !this.isVisible;
+  }
 
   ngOnInit() {
-    this.menuItems = ROUTES;
+    this.getWidthName().subscribe(this.handleWindowResize);
+  }
+
+  private getWidthName(): Observable<string> { // todo: unsubscribe
+    return this.breakpointsService.getWidthName();
+  }
+
+  @Bind()
+  private handleWindowResize() {
+    if(this.breakpointsService.isSmall()) {
+      this.isDesktopMenu = false;
+    } else {
+      this.isDesktopMenu = true;
+    }
   }
 }

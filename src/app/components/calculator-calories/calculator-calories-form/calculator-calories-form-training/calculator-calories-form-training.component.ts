@@ -1,9 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { remove } from 'lodash';
 
 import { bodyType, intensityType, periodType } from '../../../../shared/enums/calculator-calories-form.enums';
 import { UtilsService } from '../../../../core/providers/utils/utils.service';
 import { IntensityDetails } from '../../calculator-calories.interface';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CONSTANTS } from '../../../../shared/constants';
 
 @Component({
@@ -22,6 +23,7 @@ export class CalculatorCaloriesFormTrainingComponent implements OnInit {
   @Input() title: string;
   @Input() intensityDetails: IntensityDetails[] = [];
   @Output() onAddIntensity: EventEmitter<IntensityDetails> = new EventEmitter();
+  @Output() onRemoveIntensity: EventEmitter<IntensityDetails> = new EventEmitter();
 
   constructor(private utilsService: UtilsService,
               private formBuilder: FormBuilder) { }
@@ -30,6 +32,10 @@ export class CalculatorCaloriesFormTrainingComponent implements OnInit {
     if (this.activityform.valid) {
       this.onAddIntensity.emit(this.activityform.value);
     }
+  }
+
+  removeActivity(trainingToRemove: IntensityDetails) {
+    this.onRemoveIntensity.emit(trainingToRemove);
   }
 
   setControlValue(value: string, controlName: string) {
@@ -41,10 +47,9 @@ export class CalculatorCaloriesFormTrainingComponent implements OnInit {
   }
 
   readActivity(activity: IntensityDetails): string {
-    return `
-        Zmęczenie: ${CONSTANTS.intensitTypeReadable[activity.intensity]} ---- 
-        Czas: ${activity.time} (min) ---- 
-        ${CONSTANTS.periodsReadable.readableString[activity.period]}`;
+    return `${activity.time} --
+            ${CONSTANTS.intensitTypeReadable[activity.intensity]} --
+            ${CONSTANTS.periodsReadable.readableString[activity.period]}`;
   }
 
   ngOnInit() {

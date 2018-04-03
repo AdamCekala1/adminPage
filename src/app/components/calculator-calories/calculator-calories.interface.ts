@@ -1,6 +1,7 @@
 import { bodyType, intensityType, periodType } from '../../shared/enums/calculator-calories-form.enums';
 
 export interface IntensityDetails {
+  index: number;
   time: number;
   period: periodType;
   intensity?: intensityType;

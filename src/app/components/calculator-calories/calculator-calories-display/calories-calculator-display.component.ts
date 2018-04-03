@@ -4,9 +4,9 @@ import { Calories } from '../calculator-calories.interface';
 
 @Component({
   selector: 'app-calories-calculator-display',
-  templateUrl: './calories-calculator-display.component.html',
-  styleUrls: ['./calories-calculator-display.component.scss']
+  templateUrl: './calculator-calories-display.component.html',
+  styleUrls: ['./calculator-calories-display.component.scss']
 })
-export class CaloriesCalculatorDisplayComponent {
+export class CalculatorCaloriesDisplayComponent {
   @Input() allCalories: Calories;
 }

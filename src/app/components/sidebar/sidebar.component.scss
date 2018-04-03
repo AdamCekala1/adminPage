@@ -1,0 +1,17 @@
+@import '../../styles/config.scss';
+
+.nav {
+  display: grid;
+  grid-auto-flow: row;
+}
+
+.sidebar {
+  @media (max-width: $col-lg) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 10000;
+    background: #ffffff;
+  }
+}

@@ -2,7 +2,8 @@
       class="col-xs-12 margin-bottom-20">
   <h4>{{title}}</h4>
   <div class="row margin-bottom-20">
-    <div class="form-group margin-bottom-0 col-xs-12 col-lg-6">
+    <div appInvalidInput
+         class="form-group margin-bottom-0 col-xs-12 col-lg-6">
       <label class="control-label">Czas {{title}} (min)</label>
       <input class="form-control"
              formControlName="time">
@@ -58,6 +59,7 @@
       <li *ngFor="let activity of intensityDetails"
           class="list-group-item">
         {{readActivity(activity)}}
+        <i (click)="removeActivity(activity)" class="float-right material-icons">delete</i>
       </li>
     </ul>
   </ng-container>

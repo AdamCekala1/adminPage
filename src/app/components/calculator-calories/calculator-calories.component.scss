@@ -1,7 +1,5 @@
-.main-data-borders {
-  @media (min-width: 992px) {
-    border-right: 2px solid lightgray;
-    border-left: 2px solid lightgray;
-    padding: 0 20px;
-  }
+@import '../../styles/config.scss';
+
+div[class ^= 'col-'] {
+  padding: 20px;
 }

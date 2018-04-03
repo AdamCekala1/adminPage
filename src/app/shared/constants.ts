@@ -3,6 +3,7 @@ import {
     periodType,
     bodyType
 } from './enums/calculator-calories-form.enums';
+import {widtBreakpoints} from "./enums/width-breakpoints.enum";
 
 export class CONSTANTS {
   public static ROUTING_URL = {
@@ -13,6 +14,14 @@ export class CONSTANTS {
   };
 
   public static MAX_IMAGES_SIZE = 500000;
+
+  public static WIDTH_BREAKPOINTS = {
+    [widtBreakpoints.lg]: 1200,
+    [widtBreakpoints.md]: 992,
+    [widtBreakpoints.sm]: 400,
+    [widtBreakpoints.xl]: 1920,
+    [widtBreakpoints.xs]: 600
+  };
 
   // public static PRODUCTS_TYPE = {
   //   [typesOfProducts.DRINIKS]: 'napoje i słodycze',
