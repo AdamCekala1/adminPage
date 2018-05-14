@@ -1,3 +1,20 @@
-img {
-  max-width: 100%;
+@import '../../../styles/config';
+
+.wrapper {
+  display: grid;
+  grid-column-gap: 15px;
+  grid-row-gap: 15px;
+  grid-template-columns: 100%;
+}
+
+.width-100 {
+  width: 100%;
+}
+
+.image-wrapper {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 300px;
+  overflow: hidden;
 }

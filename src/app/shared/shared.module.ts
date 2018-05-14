@@ -5,8 +5,13 @@ import { HttpModule } from '@angular/http';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { InvalidInputDirective } from './directives/invalid-input.directive';
-import { BsDropdownModule } from 'ngx-bootstrap';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import {MatListModule} from '@angular/material/list';
+import {
+  MatButtonModule, MatCardModule, MatDividerModule, MatGridListModule, MatInputModule, MatRadioModule,
+  MatSelectModule
+} from "@angular/material";
+import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 
 @NgModule({
   imports: [
@@ -15,9 +20,18 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     ReactiveFormsModule,
     FormsModule,
     HttpModule,
-    BsDropdownModule.forRoot(),
     RouterModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatListModule,
+    MatDividerModule,
+    MatCardModule,
+    MatButtonModule,
+    MatInputModule,
+    MatSelectModule,
+    BrowserAnimationsModule,
+    MatRadioModule,
+    MatGridListModule,
+    MatCardModule
   ],
   exports: [
     CommonModule,
@@ -26,9 +40,18 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     FormsModule,
     FlexLayoutModule,
     InvalidInputDirective,
-    BsDropdownModule,
     HttpModule,
-    RouterModule
+    RouterModule,
+    MatListModule,
+    MatDividerModule,
+    MatCardModule,
+    MatButtonModule,
+    MatInputModule,
+    MatSelectModule,
+    BrowserAnimationsModule,
+    MatRadioModule,
+    MatGridListModule,
+    MatCardModule
   ],
   declarations: [InvalidInputDirective]
 })

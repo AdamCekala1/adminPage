@@ -1,3 +1,5 @@
+
+import {debounceTime} from 'rxjs/operators';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -62,7 +64,7 @@ export class CalculatorCaloriesFormPersonalComponent implements OnInit {
   }
 
   private watchFormUpdate() {
-    this.personalForm.valueChanges.debounceTime(300).subscribe(() => {
+    this.personalForm.valueChanges.pipe(debounceTime(300)).subscribe(() => {
       this.setPersonalDetails();
     });
   }

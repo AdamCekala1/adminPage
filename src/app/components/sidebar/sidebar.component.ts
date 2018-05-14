@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {Observable} from "rxjs/Observable";
+import {Observable} from "rxjs";
 
 import {BreakpointsService} from "../../core/providers/breakpoints/breakpoints.service";
 import { Bind } from "lodash-decorators";
@@ -36,6 +36,7 @@ export class SidebarComponent implements OnInit {
   }
 
   toggleNavbar() {
+    console.log('toggle')
     this.isVisible = !this.isVisible;
   }
 

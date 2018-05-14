@@ -61,19 +61,31 @@
 
       <!-- SIDEBAR -->
 
-        <ul class="nav"
-            *ngIf="isVisible || isDesktopMenu">
-            <li routerLinkActive="active"
-                *ngFor="let menuItem of menuItems"
-                class="nav-item"
-                [ngClass]="menuItem.class">
-                <a [routerLink]="[menuItem.path]"
-                   class="nav-link">
-                    <i class="material-icons">{{menuItem.icon}}</i>
-                    <p>{{menuItem.title}}</p>
-                </a>
-            </li>
-        </ul>
+    <mat-list>
+      <mat-list-item *ngFor="let menuItem of menuItems">
+        <i class="material-icons">{{menuItem.icon}}</i>
+        <p>{{menuItem.title}}</p>
+      </mat-list-item>
+      <mat-list-item>
         <h2 (click)="toggleNavbar()">CLOSe</h2>
+      </mat-list-item>
+    </mat-list>
+
+
+
+        <!--<ul class="nav"-->
+            <!--*ngIf="isVisible || isDesktopMenu">-->
+            <!--<li routerLinkActive="active"-->
+                <!--*ngFor="let menuItem of menuItems"-->
+                <!--class="nav-item"-->
+                <!--[ngClass]="menuItem.class">-->
+                <!--<a [routerLink]="[menuItem.path]"-->
+                   <!--class="nav-link">-->
+                    <!--<i class="material-icons">{{menuItem.icon}}</i>-->
+                    <!--<p>{{menuItem.title}}</p>-->
+                <!--</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+        <!--<h2 (click)="toggleNavbar()">CLOSe</h2>-->
   </div>
 </div>

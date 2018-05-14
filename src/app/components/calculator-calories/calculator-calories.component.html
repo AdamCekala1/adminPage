@@ -1,19 +1,8 @@
 <!--<app-banner [backgroundImage]="'./../../../assets/numbers.jpg'"></app-banner>-->
-<div class="">
-  <div class="">
-    <h4>Wskaźnik podstawowej przemiany materii - BMR</h4>
-  </div>
-  <div class="">
-    <div class="row padding-20">
-      <div class="col-xs-12 col-xl-3">
-        <app-calculator-calories-description></app-calculator-calories-description>
-      </div>
-      <div class="col-xs-12 col-md-9 col-xl-6">
-        <app-calculator-calories-form (onCalculate)="setCalories($event)"></app-calculator-calories-form>
-      </div>
-      <div class="col-xs-12 col-md-3 col-xl-3">
-        <app-calories-calculator-display [allCalories]="allCalories"></app-calories-calculator-display>
-      </div>
-    </div>
-  </div>
+
+<div class="wrapper">
+  <app-calculator-calories-description class="col-100"></app-calculator-calories-description>
+  <app-calculator-calories-form (onCalculate)="setCalories($event)"></app-calculator-calories-form>
+  <app-calories-calculator-display [allCalories]="allCalories"></app-calories-calculator-display>
 </div>
+

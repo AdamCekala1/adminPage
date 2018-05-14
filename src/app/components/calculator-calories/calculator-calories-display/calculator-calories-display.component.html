@@ -1,9 +1,13 @@
-<h5>Wyliczone wartości na dzień aktywności:</h5>
-<ng-container *ngIf="allCalories">
-    <div class="">bmr: {{allCalories?.bmr}} kcal </div>
-    <div class="">z wysiłku aerobowego: {{allCalories?.teaAero}} kcal </div>
-    <div class="">z wysiłku siłowego: {{allCalories?.teaGym}} kcal  </div>
-    <div class="">neat: {{allCalories?.neat}} kcal  </div>
-    <div class="">tef:  {{allCalories?.tef}} kcal </div>
-    <div class=""><b>SUMA: {{allCalories?.all}} kcal </b><br /></div>
-</ng-container>
+<mat-card>
+  <mat-card-header>
+    <h5>Wyliczone wartości na dzień aktywności:</h5>
+  </mat-card-header>
+  <ng-container *ngIf="allCalories">
+      <div class="">bmr: {{allCalories?.bmr}} kcal </div>
+      <div class="">z wysiłku aerobowego: {{allCalories?.teaAero}} kcal </div>
+      <div class="">z wysiłku siłowego: {{allCalories?.teaGym}} kcal  </div>
+      <div class="">neat: {{allCalories?.neat}} kcal  </div>
+      <div class="">tef:  {{allCalories?.tef}} kcal </div>
+      <div class=""><b>SUMA: {{allCalories?.all}} kcal </b><br /></div>
+  </ng-container>
+</mat-card>

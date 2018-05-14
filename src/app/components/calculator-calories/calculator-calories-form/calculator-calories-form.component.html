@@ -1,20 +1,25 @@
-<app-calculator-calories-form-personal (onChange)="setUserDetails($event)"></app-calculator-calories-form-personal>
-<h3 class="margin-top-30">Trening:</h3>
-<div class="margin-top-30">
-  <app-calculator-calories-form-training [title]="'Aero'"
-                                         [intensityDetails]="userTrainings.aerobicTraining"
-                                         (onRemoveIntensity)="removeActivity($event, 'aerobicTraining')"
-                                         (onAddIntensity)="addActivity($event, 'aerobicTraining')"></app-calculator-calories-form-training>
-</div>
-<div class="margin-top-30">
-  <app-calculator-calories-form-training [title]="'Gym'"
-                                         [intensityDetails]="userTrainings.gymTraining"
-                                         (onRemoveIntensity)="removeActivity($event, 'gymTraining')"
-                                         (onAddIntensity)="addActivity($event, 'gymTraining')"></app-calculator-calories-form-training>
-</div>
-<button type="submit"
-        class="btn btn-outline-info btn-block"
-        (click)="setCalories()">
-  Pokaz kcal!
-</button>
-
+<mat-card>
+  <mat-card-header>
+    <h5>Kalkulator</h5>
+  </mat-card-header>
+  <app-calculator-calories-form-personal (onChange)="setUserDetails($event)"></app-calculator-calories-form-personal>
+  <h3 class="margin-top-30">Trening:</h3>
+  <div class="margin-top-30">
+    <app-calculator-calories-form-training [title]="'Aero'"
+                                           [intensityDetails]="userTrainings.aerobicTraining"
+                                           (onRemoveIntensity)="removeActivity($event, 'aerobicTraining')"
+                                           (onAddIntensity)="addActivity($event, 'aerobicTraining')"></app-calculator-calories-form-training>
+  </div>
+  <div class="margin-top-30">
+    <app-calculator-calories-form-training [title]="'Gym'"
+                                           [intensityDetails]="userTrainings.gymTraining"
+                                           (onRemoveIntensity)="removeActivity($event, 'gymTraining')"
+                                           (onAddIntensity)="addActivity($event, 'gymTraining')"></app-calculator-calories-form-training>
+  </div>
+  <button type="submit"
+          mat-raised-button
+          color="primary"
+          (click)="setCalories()">
+    Pokaz kcal!
+  </button>
+</mat-card>

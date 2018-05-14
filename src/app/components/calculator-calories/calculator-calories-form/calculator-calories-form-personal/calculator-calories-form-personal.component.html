@@ -25,31 +25,36 @@
     </div>
   </div>
   <div class="row">
-    <div appInvalidInput class="col-xs-12 col-lg-4 form-group">
-      <label class="form-control-label">Wiek (lata)</label>
-      <input class="form-control"
+    <mat-form-field>
+      <input placeholder="Wiek (lata)"
+             matInput
              formControlName="age">
-      <div class="invalid-feedback">Sorry, that username's taken. Try another?</div>
-    </div>
-    <div appInvalidInput class="col-xs-12 col-lg-4 form-group">
-      <label class="form-control-label">Waga (kg)</label>
-      <input class="form-control"
+    </mat-form-field>
+
+    <mat-form-field>
+      <input placeholder="Waga (kg)"
+             matInput
              formControlName="weigth">
-      <div class="invalid-feedback">Sorry, that username's taken. Try another?</div>
-    </div>
-    <div appInvalidInput class="col-xs-12 col-lg-4 form-group">
-      <label class="form-control-label">Wzrost (cm)</label>
-      <input class="form-control"
+    </mat-form-field>
+
+    <mat-form-field>
+      <input placeholder="Wzrost (cm)"
+             matInput
              formControlName="height">
-    </div>
+    </mat-form-field>
   </div>
-  <div class="btn-group">
-    <button *ngFor="let type of bodyTypesStringArray"
-            class="btn"
-            [class.btn-outline-primary]="bodyType[getControlValue('buildType')] === type"
-            [class.btn-outline-dark]="bodyType[getControlValue('buildType')] !== type"
-            (click)="setControlValue('buildType', bodyType[type])">
-      {{bodyTypeReadable[bodyType[type]]}}
-    </button>
-  </div>
+
+
+
+  <mat-form-field>
+    <mat-select [placeholder]="bodyTypeReadable[getControlValue('buildType')]">
+      <mat-option *ngFor="let type of bodyTypesStringArray"
+                  [value]="bodyType[getControlValue('buildType')]">
+        {{bodyTypeReadable[bodyType[type]]}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+
 </form>

@@ -1,5 +1,22 @@
 @import '../../styles/config.scss';
 
-div[class ^= 'col-'] {
-  padding: 20px;
+$gap: 20px;
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  @media(min-width: $col-lg) {
+    grid-template-columns: 2fr 1fr;
+  }
+
+  > * {
+    padding: $gap;
+  }
 }
+
+.col-100 {
+  grid-column-start: 1;
+  grid-column-end: 4;
+}
+
