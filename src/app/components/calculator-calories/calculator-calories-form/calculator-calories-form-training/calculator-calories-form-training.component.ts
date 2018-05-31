@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { remove } from 'lodash';
 
@@ -10,7 +10,8 @@ import { CONSTANTS } from '../../../../shared/constants';
 @Component({
   selector: 'app-calculator-calories-form-training',
   templateUrl: './calculator-calories-form-training.component.html',
-  styleUrls: ['./calculator-calories-form-training.component.scss']
+  styleUrls: ['./calculator-calories-form-training.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CalculatorCaloriesFormTrainingComponent implements OnInit {
   activityform: FormGroup;

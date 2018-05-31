@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from "@angular/core";
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 import {bodyType} from '../../../../../shared/enums/calculator-calories-form.enums';
@@ -11,6 +11,7 @@ import {CONSTANTS} from "../../../../../shared/constants";
   selector: 'app-calculator-calories-select-body-type',
   templateUrl: './calculator-calories-select-body-type.component.html',
   styleUrls: ['./calculator-calories-select-body-type.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: CalculatorCaloriesSelectBodyTypeComponent,
