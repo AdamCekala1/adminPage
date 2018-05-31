@@ -10,6 +10,8 @@ export class CalculatorCaloriesComponent {
     allCalories: Calories;
 
     setCalories(data: Calories) {
+        console.log(this.allCalories)
         this.allCalories = data;
     }
 }
+

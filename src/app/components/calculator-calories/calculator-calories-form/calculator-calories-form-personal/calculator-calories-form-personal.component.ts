@@ -1,6 +1,5 @@
-
 import {debounceTime} from 'rxjs/operators';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { bodyType } from '../../../../shared/enums/calculator-calories-form.enums';
@@ -19,6 +18,7 @@ export class CalculatorCaloriesFormPersonalComponent implements OnInit {
   bodyTypesStringArray: string[] = [];
   readonly bodyType = bodyType;
   readonly bodyTypeReadable = CONSTANTS.bodyType.readableString;
+  @Input() userDetails: UserDetails;
   @Output() onChange: EventEmitter<UserDetails> = new EventEmitter();
 
   constructor(private calculatorService: CalculatorCaloriesService,

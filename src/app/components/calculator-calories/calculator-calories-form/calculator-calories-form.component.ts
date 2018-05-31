@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, Output} from "@angular/core";
 import { remove, uniqueId } from 'lodash';
 
 import { Calories, IntensityDetails, UserDetails, UserTrainings } from '../calculator-calories.interface';
@@ -7,7 +7,8 @@ import { CalculatorCaloriesService } from '../calculator-calories.service';
 @Component({
   selector: 'app-calculator-calories-form',
   templateUrl: './calculator-calories-form.component.html',
-  styleUrls: ['./calculator-calories-form.component.scss']
+  styleUrls: ['./calculator-calories-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CalculatorCaloriesFormComponent {
   userTrainings: UserTrainings = {
