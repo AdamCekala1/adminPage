@@ -3,12 +3,13 @@ import { chain, forEach } from 'lodash';
 
 import { CalculatorInformation, Calories, IntensityDetails } from './calculator-calories.interface';
 import { CONSTANTS } from '../../shared/constants';
-import { ActivityType } from '../../shared/enums/calculator-calories-form.enums';
+import { ActivityType, sexType } from "../../shared/enums/calculator-calories-form.enums";
 
 @Injectable()
 export class CalculatorCaloriesService {
-  calculateKcal({age, weigth, height, gymTraining, aerobicTraining, buildType, isMen}: CalculatorInformation ): Calories {
-    const bmr: number = this.calculateBMR(age, weigth, height, isMen);
+  calculateKcal({age, weigth, height, gymTraining, aerobicTraining, buildType, sex}: CalculatorInformation ): Calories {
+    const isMan: boolean = sex === sexType.MAN;
+    const bmr: number = this.calculateBMR(age, weigth, height, isMan);
     const teaAero: number = aerobicTraining ? this.calculateDailyTEA(aerobicTraining, ActivityType.AERO) : 0;
     const teaGym: number = gymTraining ? this.calculateDailyTEA(gymTraining, ActivityType.GYM, bmr) : 0;
     const neat: number  =  CONSTANTS.bodyType.kcal[buildType];
@@ -25,8 +26,8 @@ export class CalculatorCaloriesService {
     };
   }
 
-  private calculateBMR(age: number, weigth: number, height: number, isMen: boolean): number {
-    const addedKcal: number = isMen ? 5 : -161;
+  private calculateBMR(age: number, weigth: number, height: number, isMan: boolean): number {
+    const addedKcal: number = isMan ? 5 : -161;
 
     return 9.99 * weigth + (6.25 * height) - (4.92 * age) + addedKcal;
   }

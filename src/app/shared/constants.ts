@@ -1,7 +1,8 @@
 import {
     intensityType,
     periodType,
-    bodyType
+    bodyType,
+    sexType
 } from './enums/calculator-calories-form.enums';
 import {widtBreakpoints} from "./enums/width-breakpoints.enum";
 
@@ -13,7 +14,7 @@ export class CONSTANTS {
     IGREDIENTS: 'ingredients'
   };
 
-  public static MAX_IMAGES_SIZE = 500000;
+  // public static MAX_IMAGES_SIZE = 500000;
 
   public static WIDTH_BREAKPOINTS = {
     [widtBreakpoints.lg]: 1200,
@@ -87,6 +88,13 @@ export class CONSTANTS {
       [bodyType.EKTO]: 800,
       [bodyType.ENDO]: 300,
       [bodyType.MEZO]: 450
+    }
+  };
+
+  public static sexType = {
+    readableString: {
+      [sexType.MAN]: 'Mężczyzna',
+      [sexType.WOMAN]: 'Kobieta'
     }
   };
 

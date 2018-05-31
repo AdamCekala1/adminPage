@@ -8,6 +8,8 @@ import { CalculatorCaloriesFormTrainingComponent } from './calculator-calories-f
 import { CalculatorCaloriesDisplayComponent } from './calculator-calories-display/calories-calculator-display.component';
 import { CalculatorCaloriesFormPersonalComponent } from './calculator-calories-form/calculator-calories-form-personal/calculator-calories-form-personal.component';
 import { CalculatorCaloriesDescriptionComponent } from './calculator-calories-description/calculator-calories-description.component';
+import { CalculatorCaloriesSelectSexComponent } from './calculator-calories-form/calculator-calories-form-personal/calculator-calories-select-sex/calculator-calories-select-sex.component';
+import { CalculatorCaloriesSelectBodyTypeComponent } from './calculator-calories-form/calculator-calories-form-personal/calculator-calories-select-body-type/calculator-calories-select-body-type.component';
 
 @NgModule({
   imports: [
@@ -19,7 +21,9 @@ import { CalculatorCaloriesDescriptionComponent } from './calculator-calories-de
     CalculatorCaloriesFormTrainingComponent,
     CalculatorCaloriesDisplayComponent,
     CalculatorCaloriesFormPersonalComponent,
-    CalculatorCaloriesDescriptionComponent
+    CalculatorCaloriesDescriptionComponent,
+    CalculatorCaloriesSelectSexComponent,
+    CalculatorCaloriesSelectBodyTypeComponent
   ],
   providers: [CalculatorCaloriesService],
   exports: [CalculatorCaloriesComponent]

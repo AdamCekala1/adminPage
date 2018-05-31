@@ -10,6 +10,11 @@ export enum bodyType {
   EKTO
 }
 
+export enum sexType {
+  MAN,
+  WOMAN
+}
+
 export enum intensityType {
   LIGHT,
   MEDIUM,

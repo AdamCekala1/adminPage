@@ -3,26 +3,7 @@
   <h3>Dane pomiarowe:</h3>
   <div>
     <h5>Wybierz płeć:</h5>
-    <div class="radio">
-      <label>
-        <input class=""
-               type="radio"
-               name="isMen"
-               [value]="true"
-               formControlName="isMen">
-        Mężczyzna
-      </label>
-    </div>
-    <div class="radio">
-      <label>
-        <input class=""
-               name="isMen"
-               type="radio"
-               [value]="false"
-               formControlName="isMen">
-        Kobieta
-      </label>
-    </div>
+    <app-calculator-calories-select-sex [formControlName]="'sex'"></app-calculator-calories-select-sex>
   </div>
   <div class="row">
     <mat-form-field>
@@ -30,31 +11,16 @@
              matInput
              formControlName="age">
     </mat-form-field>
-
     <mat-form-field>
       <input placeholder="Waga (kg)"
              matInput
              formControlName="weigth">
     </mat-form-field>
-
     <mat-form-field>
       <input placeholder="Wzrost (cm)"
              matInput
              formControlName="height">
     </mat-form-field>
   </div>
-
-
-
-  <mat-form-field>
-    <mat-select [placeholder]="bodyTypeReadable[getControlValue('buildType')]">
-      <mat-option *ngFor="let type of bodyTypesStringArray"
-                  [value]="bodyType[getControlValue('buildType')]">
-        {{bodyTypeReadable[bodyType[type]]}}
-      </mat-option>
-    </mat-select>
-  </mat-form-field>
-
-
-
+  <app-calculator-calories-select-body-type [formControlName]="'buildType'"></app-calculator-calories-select-body-type>
 </form>

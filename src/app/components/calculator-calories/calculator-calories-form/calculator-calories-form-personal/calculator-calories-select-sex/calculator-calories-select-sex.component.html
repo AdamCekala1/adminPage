@@ -1,0 +1,9 @@
+<mat-form-field>
+  <mat-select (selectionChange)="changeValue($event.value)"
+              [placeholder]="sexTypeReadable[slectedType] || 'Wybierz płeć'">
+    <mat-option *ngFor="let type of sexTypesStringArray"
+                [value]="type">
+      {{sexTypeReadable[sexType[type]]}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

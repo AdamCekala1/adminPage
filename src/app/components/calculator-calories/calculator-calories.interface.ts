@@ -1,4 +1,4 @@
-import { bodyType, intensityType, periodType } from '../../shared/enums/calculator-calories-form.enums';
+import {bodyType, intensityType, periodType, sexType} from "../../shared/enums/calculator-calories-form.enums";
 
 export interface IntensityDetails {
   index: number;
@@ -12,7 +12,7 @@ export interface CalculatorInformation extends UserTrainings, UserDetails {
 }
 
 export interface UserDetails {
-  isMen: boolean;
+  sex: sexType;
   age: number;
   weigth: number;
   height: number;

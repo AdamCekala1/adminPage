@@ -1,0 +1,9 @@
+<mat-form-field>
+  <mat-select (selectionChange)="changeValue($event.value)"
+              [placeholder]="bodyTypeReadable[slectedType] || 'Wybierz typ budowy'">
+    <mat-option *ngFor="let type of bodyTypesStringArray"
+                [value]="type">
+      {{bodyTypeReadable[bodyType[type]]}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

@@ -1,10 +1,10 @@
-import {debounceTime} from 'rxjs/operators';
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { debounceTime } from 'rxjs/operators';
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { bodyType } from '../../../../shared/enums/calculator-calories-form.enums';
 import { CONSTANTS } from '../../../../shared/constants';
-import { Calories, UserDetails } from '../../calculator-calories.interface';
+import { UserDetails } from '../../calculator-calories.interface';
 import { UtilsService } from '../../../../core/providers/utils/utils.service';
 import { CalculatorCaloriesService } from '../../calculator-calories.service';
 
@@ -15,9 +15,6 @@ import { CalculatorCaloriesService } from '../../calculator-calories.service';
 })
 export class CalculatorCaloriesFormPersonalComponent implements OnInit {
   personalForm: FormGroup;
-  bodyTypesStringArray: string[] = [];
-  readonly bodyType = bodyType;
-  readonly bodyTypeReadable = CONSTANTS.bodyType.readableString;
   @Input() userDetails: UserDetails;
   @Output() onChange: EventEmitter<UserDetails> = new EventEmitter();
 
@@ -34,28 +31,14 @@ export class CalculatorCaloriesFormPersonalComponent implements OnInit {
     }
   }
 
-  setControlValue(controlName: string, value: string) {
-    this.personalForm.get(controlName).setValue(value);
-  }
-
-  getControlValue(name: string): string {
-    return this.personalForm.get(name).value;
-  }
-
-  getControl(name: string): AbstractControl {
-    return this.personalForm.get(name);
-  }
-
   ngOnInit() {
-    this.bodyTypesStringArray = this.utilsService.enumToKeysArray(bodyType);
-
     this.initForm();
     this.watchFormUpdate();
   }
 
   private initForm() {
     this.personalForm = this.formBuilder.group({
-      isMen: true,
+      sex: ['', [Validators.required]],
       weigth: ['', [Validators.required, Validators.pattern(CONSTANTS.REGEX.NUMBER_ONLY)]],
       age: ['', [Validators.required, Validators.pattern(CONSTANTS.REGEX.NUMBER_ONLY)]],
       height: ['', [Validators.required, Validators.pattern(CONSTANTS.REGEX.NUMBER_ONLY)]],
