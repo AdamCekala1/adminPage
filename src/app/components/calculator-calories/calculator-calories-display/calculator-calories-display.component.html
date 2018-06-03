@@ -2,12 +2,16 @@
   <mat-card-header>
     <h5>Wyliczone wartości na dzień aktywności:</h5>
   </mat-card-header>
-  <ng-container *ngIf="allCalories">
-      <div class="">bmr: {{allCalories?.bmr}} kcal </div>
-      <div class="">z wysiłku aerobowego: {{allCalories?.teaAero}} kcal </div>
-      <div class="">z wysiłku siłowego: {{allCalories?.teaGym}} kcal  </div>
-      <div class="">neat: {{allCalories?.neat}} kcal  </div>
-      <div class="">tef:  {{allCalories?.tef}} kcal </div>
-      <div class=""><b>SUMA: {{allCalories?.all}} kcal </b><br /></div>
+  <ng-container *ngIf="keys.length">
+    <mat-table [dataSource]="dataSource">
+      <ng-container matColumnDef="key">
+        <mat-cell *matCellDef="let element"> {{element.key}} </mat-cell>
+      </ng-container>
+      <ng-container matColumnDef="value">
+        <mat-cell *matCellDef="let element"> {{element.value | number: '1.2-2'}} kcal </mat-cell>
+      </ng-container>
+      <mat-row *matRowDef="let row; columns: keys;"
+               [ngClass]="{'highlight': row.key === 'all'}"></mat-row>
+    </mat-table>
   </ng-container>
 </mat-card>

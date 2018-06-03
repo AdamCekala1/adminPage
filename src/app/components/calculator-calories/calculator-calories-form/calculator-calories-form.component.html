@@ -2,7 +2,9 @@
   <mat-card-header>
     <h1>Kalkulator</h1>
   </mat-card-header>
+  <mat-divider></mat-divider>
   <app-calculator-calories-form-personal (onChange)="setUserDetails($event)"></app-calculator-calories-form-personal>
+  <mat-divider></mat-divider>
   <h3 class="margin-top-30">Trening:</h3>
   <div class="margin-top-30">
     <app-calculator-calories-form-training [title]="'Aero'"
@@ -16,10 +18,14 @@
                                            (onRemoveIntensity)="removeActivity($event, 'gymTraining')"
                                            (onAddIntensity)="addActivity($event, 'gymTraining')"></app-calculator-calories-form-training>
   </div>
-  <button type="submit"
-          mat-raised-button
-          color="primary"
-          (click)="setCalories()">
-    Pokaz kcal!
-  </button>
+  <mat-divider></mat-divider>
+  <div class="margin-top-40">
+    <button type="submit"
+            mat-raised-button
+            [disabled]="!userDetails"
+            color="primary"
+            (click)="setCalories()">
+      Pokaz kcal!
+    </button>
+  </div>
 </mat-card>

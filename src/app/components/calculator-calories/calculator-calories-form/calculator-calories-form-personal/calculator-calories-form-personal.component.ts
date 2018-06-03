@@ -3,7 +3,7 @@ import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output}
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { get } from 'lodash';
 
-import { bodyType } from '../../../../shared/enums/calculator-calories-form.enums';
+import {bodyType, sexType} from "../../../../shared/enums/calculator-calories-form.enums";
 import { CONSTANTS } from '../../../../shared/constants';
 import { UserDetails } from '../../calculator-calories.interface';
 import { UtilsService } from '../../../../core/providers/utils/utils.service';
@@ -42,7 +42,7 @@ export class CalculatorCaloriesFormPersonalComponent implements OnInit {
     const userDetails: UserDetails = LocalStorageService.getUserDetails();
 
     this.personalForm = this.formBuilder.group({
-      sex: [get(userDetails, 'sex', ''), [Validators.required]],
+      sex: [get(userDetails, 'sex', sexType.MAN), [Validators.required]],
       weigth: [get(userDetails, 'weigth', ''), [Validators.required, Validators.pattern(CONSTANTS.REGEX.NUMBER_ONLY)]],
       age: [get(userDetails, 'age', ''), [Validators.required, Validators.pattern(CONSTANTS.REGEX.NUMBER_ONLY)]],
       height: [get(userDetails, 'height', ''), [Validators.required, Validators.pattern(CONSTANTS.REGEX.NUMBER_ONLY)]],

@@ -13,7 +13,7 @@ import {LocalStorageService} from "../../../core/providers/storage/local-storage
 })
 export class CalculatorCaloriesFormComponent {
   userTrainings: UserTrainings;
-  private userDetails: UserDetails;
+  userDetails: UserDetails;
   @Output() onCalculate: EventEmitter<Calories> = new EventEmitter();
 
   constructor(private calculatorService: CalculatorCaloriesService) {
@@ -29,13 +29,12 @@ export class CalculatorCaloriesFormComponent {
     this.setCalories();
   }
 
-  removeActivity(data: IntensityDetails, name: string) {
-    remove(this.userTrainings[name], data);
+  removeActivity(data: IntensityDetails[], name: string) {
+    remove(this.userTrainings[name], (trainings: IntensityDetails) => data.includes(trainings));
     this.setCalories();
   }
 
   setCalories() {
-    console.log(this.userDetails)
     if (this.userDetails) {
         LocalStorageService.setUserDetails(this.userDetails);
         LocalStorageService.setUserTrainings(this.userTrainings);

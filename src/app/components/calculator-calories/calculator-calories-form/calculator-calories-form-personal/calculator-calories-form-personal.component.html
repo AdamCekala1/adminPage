@@ -2,8 +2,8 @@
       novalidate>
   <h3>Dane pomiarowe:</h3>
   <div>
-    <h5>Wybierz płeć:</h5>
     <app-calculator-calories-select-sex [formControlName]="'sex'"></app-calculator-calories-select-sex>
+    <app-calculator-calories-select-body-type [formControlName]="'buildType'"></app-calculator-calories-select-body-type>
   </div>
   <div class="row">
     <mat-form-field>
@@ -22,5 +22,4 @@
              formControlName="height">
     </mat-form-field>
   </div>
-  <app-calculator-calories-select-body-type [formControlName]="'buildType'"></app-calculator-calories-select-body-type>
 </form>

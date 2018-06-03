@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
+import { forOwn, keys } from 'lodash';
 
 import { Calories } from '../calculator-calories.interface';
 
@@ -9,5 +10,17 @@ import { Calories } from '../calculator-calories.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CalculatorCaloriesDisplayComponent {
-  @Input() allCalories: Calories;
+  @Input() set allCalories(allCalories: Calories) {
+    this.setTableData(allCalories);
+  }
+  keys: string[] = [];
+  dataSource: {key: string, value: string}[] = [];
+
+  private setTableData(allCalories: Calories) {
+    this.dataSource = [];
+
+    forOwn(allCalories, (value: string, key: string) => value ? this.dataSource.push({key, value}) : null);
+
+    this.keys = this.dataSource.length ? keys(this.dataSource[0]) : [];
+  }
 }

@@ -2,6 +2,8 @@
   <mat-select (selectionChange)="changeValue($event.value)"
               [placeholder]="bodyTypeReadable[slectedType] || 'Wybierz typ budowy'">
     <mat-option *ngFor="let type of bodyTypesStringArray"
+                [matTooltip]="tooltipText[bodyType[type]]"
+                [matTooltipPosition]="'right'"
                 [value]="type">
       {{bodyTypeReadable[bodyType[type]]}}
     </mat-option>

@@ -1,11 +1,12 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild} from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { remove } from 'lodash';
+import { map, remove } from 'lodash';
 
 import { bodyType, intensityType, periodType } from '../../../../shared/enums/calculator-calories-form.enums';
 import { UtilsService } from '../../../../core/providers/utils/utils.service';
 import { IntensityDetails } from '../../calculator-calories.interface';
 import { CONSTANTS } from '../../../../shared/constants';
+import {MatSelectionList} from "@angular/material";
 
 @Component({
   selector: 'app-calculator-calories-form-training',
@@ -21,10 +22,11 @@ export class CalculatorCaloriesFormTrainingComponent implements OnInit {
   readonly periodType = periodType;
   readonly periodsReadable = CONSTANTS.periodsReadable.readableString;
   readonly intensitTypeReadable = CONSTANTS.intensitTypeReadable;
+  @ViewChild('activities') activities: MatSelectionList;
   @Input() title: string;
   @Input() intensityDetails: IntensityDetails[] = [];
   @Output() onAddIntensity: EventEmitter<IntensityDetails> = new EventEmitter();
-  @Output() onRemoveIntensity: EventEmitter<IntensityDetails> = new EventEmitter();
+  @Output() onRemoveIntensity: EventEmitter<IntensityDetails[]> = new EventEmitter();
 
   constructor(private utilsService: UtilsService,
               private formBuilder: FormBuilder) { }
@@ -33,10 +35,6 @@ export class CalculatorCaloriesFormTrainingComponent implements OnInit {
     if (this.activityform.valid) {
       this.onAddIntensity.emit(this.activityform.value);
     }
-  }
-
-  removeActivity(trainingToRemove: IntensityDetails) {
-    this.onRemoveIntensity.emit(trainingToRemove);
   }
 
   setControlValue(value: string, controlName: string) {
@@ -51,6 +49,20 @@ export class CalculatorCaloriesFormTrainingComponent implements OnInit {
     return `${activity.time} --
             ${CONSTANTS.intensitTypeReadable[activity.intensity]} --
             ${CONSTANTS.periodsReadable.readableString[activity.period]}`;
+  }
+
+  removeActivities(activities: any[]) {
+    const selectedActivities: IntensityDetails[] = map(activities, (eventActivity: any) => eventActivity.value);
+
+    this.onRemoveIntensity.emit(selectedActivities);
+  }
+
+  toggleAll(selectAll: boolean = false) {
+    if(selectAll) {
+      this.activities.selectAll();
+    } else {
+      this.activities.deselectAll();
+    }
   }
 
   ngOnInit() {

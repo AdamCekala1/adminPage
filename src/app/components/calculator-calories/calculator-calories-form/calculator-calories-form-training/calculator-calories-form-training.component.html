@@ -26,17 +26,42 @@
   </div>
   <button type="button"
           (click)="addActivity()"
+          [disabled]="!activityform.valid"
           mat-button
           color="primary">
     Dodaj aktywność
   </button>
   <ng-container *ngIf="intensityDetails?.length">
-    <ul class="list-group">
-      <li *ngFor="let activity of intensityDetails"
-          class="list-group-item">
+    <mat-selection-list #activities>
+      <mat-list-option *ngFor="let activity of intensityDetails"
+                       [value]="activity"
+                      class="list-group-item">
         {{readActivity(activity)}}
-        <i (click)="removeActivity(activity)" class="float-right material-icons">delete</i>
-      </li>
-    </ul>
+        <mat-divider></mat-divider>
+      </mat-list-option>
+    </mat-selection-list>
+    <div class="margin-top-20">
+      <button type="button"
+              (click)="removeActivities(activities.selectedOptions.selected)"
+              [disabled]="!activities.selectedOptions.selected.length"
+              mat-button
+              color="warn">
+        Usuń wybrane aktywności
+      </button>
+      <button type="button"
+              (click)="toggleAll(true)"
+              [disabled]="!intensityDetails.length"
+              mat-button
+              color="basic">
+        Zaznacz wszystkie
+      </button>
+      <button type="button"
+              (click)="toggleAll()"
+              [disabled]="!activities.selectedOptions.selected.length"
+              mat-button
+              color="basic">
+        Odznacz wszystkie
+      </button>
+    </div>
   </ng-container>
 </form>
