@@ -1,7 +1,7 @@
-import {ChangeDetectionStrategy, Component, Input} from "@angular/core";
-import { forOwn, keys } from 'lodash';
+import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {forOwn, keys} from 'lodash';
 
-import { Calories } from '../calculator-calories.interface';
+import {Calories} from '../calculator-calories.interface';
 
 @Component({
   selector: 'app-calories-calculator-display',
@@ -13,8 +13,9 @@ export class CalculatorCaloriesDisplayComponent {
   @Input() set allCalories(allCalories: Calories) {
     this.setTableData(allCalories);
   }
+
   keys: string[] = [];
-  dataSource: {key: string, value: string}[] = [];
+  dataSource: { key: string, value: string }[] = [];
 
   private setTableData(allCalories: Calories) {
     this.dataSource = [];

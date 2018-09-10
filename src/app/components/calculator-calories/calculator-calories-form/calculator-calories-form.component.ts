@@ -1,9 +1,9 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Output} from "@angular/core";
-import { get, remove, uniqueId } from 'lodash';
+import {ChangeDetectionStrategy, Component, EventEmitter, Output} from '@angular/core';
+import {get, remove, uniqueId} from 'lodash';
 
-import { Calories, IntensityDetails, UserDetails, UserTrainings } from '../calculator-calories.interface';
-import { CalculatorCaloriesService } from '../calculator-calories.service';
-import {LocalStorageService} from "../../../core/providers/storage/local-storage.service";
+import {Calories, IntensityDetails, UserDetails, UserTrainings} from '../calculator-calories.interface';
+import {CalculatorCaloriesService} from '../calculator-calories.service';
+import {LocalStorageService} from '../../../core/providers/storage/local-storage.service';
 
 @Component({
   selector: 'app-calculator-calories-form',
@@ -36,14 +36,14 @@ export class CalculatorCaloriesFormComponent {
 
   setCalories() {
     if (this.userDetails) {
-        LocalStorageService.setUserDetails(this.userDetails);
-        LocalStorageService.setUserTrainings(this.userTrainings);
-        this.onCalculate.emit(this.calculatorService.calculateKcal({
-          ...this.userTrainings,
-          ...this.userDetails
-        }));
+      LocalStorageService.setUserDetails(this.userDetails);
+      LocalStorageService.setUserTrainings(this.userTrainings);
+      this.onCalculate.emit(this.calculatorService.calculateKcal({
+        ...this.userTrainings,
+        ...this.userDetails
+      }));
     } else {
-        // .error('Uzupełnij dane by wykonać obliczenia !');
+      // .error('Uzupełnij dane by wykonać obliczenia !');
     }
   }
 

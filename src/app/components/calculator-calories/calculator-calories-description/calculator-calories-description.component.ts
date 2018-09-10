@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from "@angular/core";
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 
 @Component({
   selector: 'app-calculator-calories-description',
@@ -6,5 +6,5 @@ import {ChangeDetectionStrategy, Component} from "@angular/core";
   styleUrls: ['./calculator-calories-description.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CalculatorCaloriesDescriptionComponent  {
+export class CalculatorCaloriesDescriptionComponent {
 }

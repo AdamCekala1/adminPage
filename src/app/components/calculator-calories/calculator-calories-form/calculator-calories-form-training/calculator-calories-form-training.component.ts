@@ -1,12 +1,12 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild} from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { map, remove } from 'lodash';
+import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {MatSelectionList} from '@angular/material';
+import {map, remove} from 'lodash';
 
-import { bodyType, intensityType, periodType } from '../../../../shared/enums/calculator-calories-form.enums';
-import { UtilsService } from '../../../../core/providers/utils/utils.service';
-import { IntensityDetails } from '../../calculator-calories.interface';
-import { CONSTANTS } from '../../../../shared/constants';
-import {MatSelectionList} from "@angular/material";
+import {bodyType, intensityType, periodType} from '../../../../shared/enums/calculator-calories-form.enums';
+import {UtilsService} from '../../../../core/providers/utils/utils.service';
+import {IntensityDetails} from '../../calculator-calories.interface';
+import {CONSTANTS} from '../../../../shared/constants';
 
 @Component({
   selector: 'app-calculator-calories-form-training',
@@ -29,7 +29,8 @@ export class CalculatorCaloriesFormTrainingComponent implements OnInit {
   @Output() onRemoveIntensity: EventEmitter<IntensityDetails[]> = new EventEmitter();
 
   constructor(private utilsService: UtilsService,
-              private formBuilder: FormBuilder) { }
+              private formBuilder: FormBuilder) {
+  }
 
   addActivity() {
     if (this.activityform.valid) {
@@ -58,7 +59,7 @@ export class CalculatorCaloriesFormTrainingComponent implements OnInit {
   }
 
   toggleAll(selectAll: boolean = false) {
-    if(selectAll) {
+    if (selectAll) {
       this.activities.selectAll();
     } else {
       this.activities.deselectAll();

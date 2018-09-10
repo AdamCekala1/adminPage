@@ -27,6 +27,7 @@
     "core-js": "2.4.1",
     "lodash-decorators": "^5.0.0",
     "material-design-icons": "^3.0.1",
+    "memoize-object-decorator": "^1.0.11",
     "rxjs": "^6.1.0",
     "rxjs-compat": "^6.0.0",
     "zone.js": "^0.8.26"

@@ -1,14 +1,13 @@
-import { debounceTime } from 'rxjs/operators';
-import {ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { get } from 'lodash';
+import {debounceTime} from 'rxjs/operators';
+import {ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {get} from 'lodash';
 
-import {bodyType, sexType} from "../../../../shared/enums/calculator-calories-form.enums";
-import { CONSTANTS } from '../../../../shared/constants';
-import { UserDetails } from '../../calculator-calories.interface';
-import { UtilsService } from '../../../../core/providers/utils/utils.service';
-import { CalculatorCaloriesService } from '../../calculator-calories.service';
-import {LocalStorageService} from "../../../../core/providers/storage/local-storage.service";
+import {bodyType, sexType} from '../../../../shared/enums/calculator-calories-form.enums';
+import {CONSTANTS} from '../../../../shared/constants';
+import {UserDetails} from '../../calculator-calories.interface';
+import {CalculatorCaloriesService} from '../../calculator-calories.service';
+import {LocalStorageService} from '../../../../core/providers/storage/local-storage.service';
 
 @Component({
   selector: 'app-calculator-calories-form-personal',
@@ -21,8 +20,7 @@ export class CalculatorCaloriesFormPersonalComponent implements OnInit {
   @Output() onChange: EventEmitter<UserDetails> = new EventEmitter();
 
   constructor(private calculatorService: CalculatorCaloriesService,
-              private formBuilder: FormBuilder,
-              private utilsService: UtilsService) {
+              private formBuilder: FormBuilder) {
   }
 
   setPersonalDetails() {

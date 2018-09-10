@@ -1,12 +1,12 @@
-import {ChangeDetectionStrategy, Component, OnInit} from "@angular/core";
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ControlValueAccessor, NG_VALUE_ACCESSOR} from '@angular/forms';
 
 import {bodyType} from '../../../../../shared/enums/calculator-calories-form.enums';
 import {ControlValueAccessorWrapper} from '../../../../../shared/classes/control-value-accessor-wrapper.class';
 
-import {UtilsService} from "../../../../../core/providers/utils/utils.service";
-import {CONSTANTS} from "../../../../../shared/constants";
-import {Dictionary} from "../../../../../shared/interfaces/utilis.interfaces";
+import {UtilsService} from '../../../../../core/providers/utils/utils.service';
+import {CONSTANTS} from '../../../../../shared/constants';
+import {Dictionary} from '../../../../../shared/interfaces/utilis.interfaces';
 
 @Component({
   selector: 'app-calculator-calories-select-body-type',
