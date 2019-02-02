@@ -1,0 +1,127 @@
+// FILTER
+@import "../../styles/mixins";
+
+$color-select: $color-select;
+$color-border: $color-primary;
+
+.filters-container, .filters-wrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  position: relative;
+  flex-wrap: wrap;
+}
+
+.filters-wrapper {
+  width: 100%;
+  justify-content: center;
+
+  @include width-from(md) {
+    justify-content: flex-start;
+  }
+}
+
+//
+//
+//
+.filters-submit {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+@include width-from(md) {
+  .filters-wrapper {
+    width: 80%;
+  }
+
+  .filters-submit {
+    width: 20%;
+  }
+}
+
+@include width-from(lg) {
+  .filters-wrapper {
+    width: 85%;
+  }
+
+  .filters-submit {
+    width: 15%;
+  }
+}
+
+@include width-from(xxl) {
+  .filters-wrapper {
+    width: 90%;
+  }
+
+  .filters-submit {
+    width: 10%;
+  }
+}
+
+
+
+
+$inputHeigth: 24px;
+
+.filter {
+  display: flex;
+  justify-content: flex-start;
+  height: 90px;
+  border: 1px solid $color-primary;
+  border-radius: 3px;
+  padding: 10px;
+  //margin-right: 10px;
+  align-items: center;
+  box-sizing: border-box;
+
+  &-wrapper {
+    box-sizing: border-box;
+    min-width: 200px;
+    max-width: 300px;
+    margin-bottom: 20px;
+  }
+
+  &-icon {
+    padding-right: 10px;
+    font-size: $inputHeigth;
+    color: $color-select;
+  }
+
+  &-select {
+    position: absolute;
+  }
+
+  &-input {
+    border: none;
+    outline: none;
+    height: $inputHeigth;
+    background: transparent;
+    position: relative;
+    z-index: 5;
+    color: #000;
+    font-size: $inputHeigth;
+
+    &::placeholder {
+      color: #757575;
+      font-size: $inputHeigth;
+    }
+  }
+
+  &-main-section {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  &-description {
+    color: #b5a7a8;
+  }
+
+  > * {
+    margin: 0;
+  }
+}

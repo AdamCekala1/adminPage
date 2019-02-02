@@ -1,0 +1,100 @@
+//$gapSize: 15px;
+@import "../../styles/mixins";
+
+$color-select: $color-select;
+$color-border: $color-primary;
+
+.calendar {
+  &-container {
+    display: grid;
+    grid-template-columns: repeat(7, calc(100% / 7));
+    //grid-template-columns: repeat(7, calc(calc(100% / 7) - calc(6 * 15px / 7)));
+    //grid-column-gap: $gapSize;
+    grid-row-gap: 0;
+    justify-items: stretch;
+    align-items: stretch;
+    justify-content: stretch;
+  }
+
+  &-value {
+    font-weight: 900;
+    font-size: 21px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    &-subvalue {
+      color: $color-disable;
+      position: absolute;
+      bottom: 8px;
+      width: 90%;
+      margin: auto;
+      left: 5%;
+      text-align: center;
+    }
+  }
+
+  &-days-names {
+    height: 50px;
+    text-align: center;
+    min-height: auto;
+    line-height: 50px;
+    padding: 0;
+  }
+
+  &-day {
+    background: #fff;
+    padding: 20px;
+    position: relative;
+    border-top: 1px solid $color-border;
+    border-left: 1px solid $color-border;
+    min-height: 100px;
+    cursor: pointer;
+    box-sizing: border-box;
+
+    &:hover {
+      border: 1px solid $color-select !important;
+    }
+
+    &:nth-last-child(-n+7) {
+      border-bottom: 1px solid $color-border;
+    }
+
+    &:last-child {
+      border-right: 1px solid $color-border;
+    }
+
+    &:nth-child(7n) {
+      border-right: 1px solid $color-border;
+    }
+
+    &-number {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      color: $color-disable;
+    }
+  }
+
+//  actions
+  &-success {
+    color: $color-success;
+  }
+
+  &-danger {
+    color: $color-danger;
+  }
+
+  &-selected {
+    border: 1px solid $color-select;
+  }
+
+  &-disabled {
+    background: $color-disable-bg;
+  }
+
+  &-today {
+    box-shadow: inset 3px 0 0 0 $color-select;
+  }
+}

@@ -1,8 +1,9 @@
 <div class="wrapper">
   <app-sidebar class="sidebar-container"></app-sidebar>
   <div>
+    <app-filter [filters]="filters"></app-filter>
     <router-outlet></router-outlet>
-    <app-footer></app-footer>
   </div>
+  <button (click)="changeFilter()"> CHANGE FILTER </button>
 </div>
 

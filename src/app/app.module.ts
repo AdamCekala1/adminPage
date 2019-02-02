@@ -8,6 +8,8 @@ import {ComponentsModule} from './components/components.module';
 import {CoreModule} from './core/core.module';
 import {routes} from './app.routing';
 import {CalculatorCaloriesModule} from './components/calculator-calories/calculator-calories.module';
+import { CalendarModule } from './components/calendar/calendar.module';
+import { FilterModule } from './components/filter/filter.module';
 
 
 @NgModule({
@@ -16,6 +18,8 @@ import {CalculatorCaloriesModule} from './components/calculator-calories/calcula
   ],
   imports: [
     BrowserModule,
+    CalendarModule,
+    FilterModule,
     CalculatorCaloriesModule,
     RouterModule.forRoot(routes),
     CoreModule,

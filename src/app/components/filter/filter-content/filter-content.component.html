@@ -1,0 +1,30 @@
+<div class="filter"
+     (click)="openSelect()">
+  <i *ngIf="filter.icon"
+     class="fa filter-icon {{filter.icon}}"
+     [style.width.%]="25"
+     aria-hidden="true"></i>
+  <div class="filter-main-section"
+       [style.width.%]="filter.icon ? 75 : 100">
+    <input type="text"
+           class="filter-input"
+           [value]="actualValue"
+           [disabled]="filter.disabled"
+           [readonly]="filter.readonly || filter.type !== filterType.TEXT"
+           [placeholder]="filter?.placeholder || ''">
+    <label class="filter-description">{{filter.description}}</label>
+    <mat-select #select
+                *ngIf="filter.type === filterType.SELECT"
+                [value]="actualValue"
+                class="filter-select">
+      <mat-option *ngIf="filter.nullOption?.canBeNull"
+                  (click)="selectValue('')">
+        {{filter.nullOption.textToClear}}
+      </mat-option>
+      <mat-option *ngFor="let selectOption of filter.values"
+                  (click)="selectValue(selectOption)">
+        {{selectOption}}
+      </mat-option>
+    </mat-select>
+  </div>
+</div>

@@ -8,7 +8,6 @@ import {ActivityType, sexType} from '../../shared/enums/calculator-calories-form
 
 @Injectable()
 export class CalculatorCaloriesService {
-  @MemoizeObject()
   calculateKcal({age, weigth, height, gymTraining, aerobicTraining, buildType, sex}: CalculatorInformation): Calories {
     const isMan: boolean = sex === sexType.MAN;
     const bmr: number = this.calculateBMR(age, weigth, height, isMan);

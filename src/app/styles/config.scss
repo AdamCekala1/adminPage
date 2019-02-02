@@ -7,12 +7,17 @@ $col-md: 768px;
 $col-sm: 576px;
 $col-xs: 400px;
 $col-xl: 1200px;
+$col-xxl: 1600px;
 
-$color-primary: #9c27b0;
+$color-primary: #dfe6e9;
+$color-select: #0984e3;
+$color-disable: #c7bdbe;
+$color-disable-bg: #eee;
+$color-success: #00b894;
+$color-danger: #d63031;
 $color-default: #eee;
 
 $margins: (0, 5, 10, 15, 20, 30, 40);
 $paddings: (0, 5, 10, 15, 20, 30);
 $widths: (0, 5, 10, 15, 20, 30);
 
-@import './mixins';

@@ -6,7 +6,7 @@ import {ControlValueAccessorWrapper} from '../../../../../shared/classes/control
 
 import {UtilsService} from '../../../../../core/providers/utils/utils.service';
 import {CONSTANTS} from '../../../../../shared/constants';
-import {Dictionary} from '../../../../../shared/interfaces/utilis.interfaces';
+import {IDictionary} from '../../../../../shared/interfaces/utilis.interfaces';
 
 @Component({
   selector: 'app-calculator-calories-select-body-type',
@@ -22,7 +22,7 @@ import {Dictionary} from '../../../../../shared/interfaces/utilis.interfaces';
 export class CalculatorCaloriesSelectBodyTypeComponent extends ControlValueAccessorWrapper implements ControlValueAccessor, OnInit {
   slectedType: string;
   bodyTypesStringArray: string[] = [];
-  tooltipText: Dictionary<string> = {
+  tooltipText: IDictionary<string> = {
     [bodyType.ENDO]: 'Endomorfik ma masywną budowę ciała i grube kości.',
     [bodyType.MEZO]: 'Mezomorfik z muskularny typ budowy.',
     [bodyType.EKTO]: 'Ektomorficy to ludzie o drobnej budowie i małym obwodzie kości.',
