@@ -1,5 +1,6 @@
 <div class="filter"
-     (click)="openSelect()">
+     (click)="openSelect()"
+     [class.filter-active]="isActive">
   <i *ngIf="filter.icon"
      class="fa filter-icon {{filter.icon}}"
      [style.width.%]="25"

@@ -4,6 +4,8 @@ $gap: 20px;
 
 .wrapper {
   display: grid;
+  background: #F6F4F4;
+  min-height: 100vh;
 
   @media(min-width: $col-lg) {
     grid-template-columns: 270px calc(100% - 270px);

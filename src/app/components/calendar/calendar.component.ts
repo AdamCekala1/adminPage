@@ -1,45 +1,59 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CalendarService, IDay, IMonth } from './providers/calendar.service';
-import * as moment from 'moment';
+import { Component, Input } from '@angular/core';
 import { get, set } from 'lodash';
 
-import { CalendarDataHandlerService } from './providers/calendar-data-handler.service';
-import { combineLatest, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { IDictionary } from '../../shared/interfaces/utilis.interfaces';
+import { FilterType } from '../filter/shared/filter-type.enum';
+import { LanguageService } from './providers/language.service';
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss']
+  styleUrls: ['./calendar.component.scss'],
 })
-export class CalendarComponent implements OnInit, OnDestroy {
-  month: IMonth;
-  daysName: string[] = [];
-  private onDestroy: Subject<boolean> = new Subject<boolean>();
+export class CalendarComponent {
+  @Input('language') set setLanguage(language: string) {
+    this.languageService.setLanguage(language);
+  }
+  filters = filtrMock;
+  displayCalendar: boolean = true;
 
-  constructor(private calendarService: CalendarService,
-              private calendarDataHandlerService: CalendarDataHandlerService) {
+  constructor(private languageService: LanguageService) {
   }
 
-  setAsActive(day: IDay) {
-    // if(day.isFromNextMonths || day.isFromPreviousMonth) {
-    //   this.days = this.calendarService.mapMonths({year: 2019}, moment().format())[day.month].days;
-    // }
+  toggleDisplaySection() {
+    this.displayCalendar = !this.displayCalendar;
   }
 
-  ngOnInit() {
-    this.calendarDataHandlerService.getCurrentMonth()
-      .pipe(takeUntil(this.onDestroy))
-      .subscribe((month: IMonth) => this.month = month);
-    this.calendarDataHandlerService.getDaysName()
-      .pipe(takeUntil(this.onDestroy))
-      .subscribe((days: string[]) => this.daysName = days);
-  }
-
-  ngOnDestroy() {
-    this.onDestroy.next();
-    this.onDestroy.complete();
-    this.onDestroy.unsubscribe();
+  setLocale() {
+    this.languageService.setLanguage('pl-PL')
   }
 }
+
+const filtrMock = [
+  {
+    name: 'month',
+    type: FilterType.TEXT,
+    required: true,
+    icon: 'fa-home',
+    description: 'Wpisz szukaną fraze',
+    placeholder: '...',
+
+  }, {
+    name: 'year',
+    value: 1990,
+    type: FilterType.SELECT,
+    icon: 'fa-calendar',
+    description: 'Wybierz miesiąc',
+    readonly: true,
+  }, {
+    name: 'year2',
+    value: 1990,
+    icon: 'fa-calendar',
+    type: FilterType.SELECT,
+    nullOption: {
+      canBeNull: true,
+      textToClear: 'Wyzeruj'
+    },
+    description: 'Wybierz rok',
+    values: [1990, 2000, 2001],
+  }
+]

@@ -36,7 +36,6 @@ export class SidebarComponent implements OnInit {
   }
 
   toggleNavbar() {
-    console.log('toggle')
     this.isVisible = !this.isVisible;
   }
 

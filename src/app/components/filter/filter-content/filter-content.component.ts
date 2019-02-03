@@ -17,6 +17,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class FilterContentComponent extends ControlValueAccessorWrapper implements ControlValueAccessor {
   @Input() filter: IFilter;
+  @Input() isActive: boolean;
   @ViewChild('select') select;
   actualValue: string | number = '';
   readonly filterType = FilterType;

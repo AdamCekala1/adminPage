@@ -13,26 +13,40 @@ import { IDictionary } from '../../shared/interfaces/utilis.interfaces';
 export class FilterComponent {
   @Input('filters') set setFilters(filters: IFilter[]) {
     if(this.form) {
-      this.filters = this.filterService.getUpdatedFilters(this.filters, filters);
-      console.log(filters)
-      console.log(this.filters)
-      this.form = this.filterService.updateFormValues(this.form, this.filters);
+      this.updateForm(filters);
     } else {
-      this.filters = filters;
-      this.form = this.formBuilder.group(this.filterService.mapConfigToForm(filters));
-      console.log(this.form.get('month'))
+      this.createForm(filters);
     }
   }
+  @Input() isSubmitDisplayed: boolean = true;
   @Output() onSubmit: EventEmitter<IDictionary<any>> = new EventEmitter();
+  @Output() onActiveInput: EventEmitter<IFilter> = new EventEmitter();
+  activeFilterName: string;
   filters: IFilter[] = [];
   form: FormGroup;
 
   constructor(private filterService: FilterService, private formBuilder: FormBuilder) { }
 
+  handleActiveInput(filter: IFilter) {
+    this.activeFilterName = filter.name;
+
+    this.onActiveInput.emit(filter);
+  }
+
   submit() {
     console.log(this.form.value);
 
     this.onSubmit.emit(this.form.value);
+  }
+
+  private updateForm(filters: IFilter[]) {
+    this.filters = this.filterService.getUpdatedFilters(this.filters, filters);
+    this.form = this.filterService.updateFormValues(this.form, this.filters);
+  }
+
+  private createForm(filters: IFilter[]) {
+    this.filters = filters;
+    this.form = this.formBuilder.group(this.filterService.mapConfigToForm(filters));
   }
 }
 

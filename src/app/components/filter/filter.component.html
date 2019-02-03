@@ -1,15 +1,19 @@
 <div *ngIf="form"
      class="filters-container">
   <div [formGroup]="form"
+       [class.width-100p]="!isSubmitDisplayed"
        class="filters-wrapper">
     <div *ngFor="let filter of filters; let i = index"
+         (click)="handleActiveInput(filter)"
          class="filter-wrapper padding-rigth-10"
          [style.width.%]="100/filters.length">
       <app-filter-content [formControlName]="filter.name"
+                          [isActive]="activeFilterName === filter.name"
                           [filter]="filter"></app-filter-content>
     </div>
   </div>
-  <div class="filters-submit">
+  <div *ngIf="isSubmitDisplayed"
+       class="filters-submit">
     <button type="submit"
             class="filters-submit"
             mat-raised-button

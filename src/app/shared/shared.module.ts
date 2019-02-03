@@ -13,6 +13,7 @@ import {
 } from "@angular/material";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CdkTableModule} from "@angular/cdk/table";
+import { SmoothHeightAnimationComponent } from './components/smooth-height-animation/smooth-height-animation.component';
 
 @NgModule({
   imports: [
@@ -58,8 +59,12 @@ import {CdkTableModule} from "@angular/cdk/table";
     BrowserAnimationsModule,
     MatRadioModule,
     MatGridListModule,
-    MatCardModule
+    MatCardModule,
+    SmoothHeightAnimationComponent,
   ],
-  declarations: [InvalidInputDirective]
+  declarations: [
+    InvalidInputDirective,
+    SmoothHeightAnimationComponent,
+  ]
 })
 export class SharedModule { }

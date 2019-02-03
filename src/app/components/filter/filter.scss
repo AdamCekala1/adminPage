@@ -21,6 +21,9 @@ $color-border: $color-primary;
   }
 }
 
+.width-100p {
+  width: 100% !important;
+}
 //
 //
 //
@@ -109,6 +112,10 @@ $inputHeigth: 24px;
       color: #757575;
       font-size: $inputHeigth;
     }
+  }
+
+  &-active {
+    border: 1px solid $color-select;
   }
 
   &-main-section {

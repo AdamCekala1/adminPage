@@ -1,29 +1,32 @@
 import { Injectable } from '@angular/core';
 import { IDictionary } from '../../../shared/interfaces/utilis.interfaces';
-import { IDay, IMonth, ISelectedDays } from './calendar.service';
 import * as moment from 'moment';
-import { get, merge } from 'lodash';
-import { BehaviorSubject, combineLatest, Subject } from 'rxjs';
+import { cloneDeep, find, findIndex, get, merge, set } from 'lodash';
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { IDay, IMonth, IMonthShort, ISelectedDays } from '../shared/calendar.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CalendarDataHandlerService {
-  private selectedDays: BehaviorSubject<ISelectedDays> = new BehaviorSubject(null);
+  private rangeDays: BehaviorSubject<ISelectedDays> = new BehaviorSubject(null);
   private currentMonth: BehaviorSubject<IMonth> = new BehaviorSubject(null);
   private years: BehaviorSubject<IDictionary<IMonth[]>> = new BehaviorSubject({});
   private selectedYear: BehaviorSubject<number> = new BehaviorSubject(moment().year());
   private selectedMonth: BehaviorSubject<number> = new BehaviorSubject(moment().month());
-  private daysName: BehaviorSubject<string[]> = new BehaviorSubject([]);
+  private daysNames: BehaviorSubject<string[]> = new BehaviorSubject([]);
+  private monthNames: BehaviorSubject<IMonthShort[]> = new BehaviorSubject([]);
 
-  constructor() {
-    combineLatest(
-      this.getSelectedYear(),
-      this.getSelectedMonth(),
-      this.getYears(),
-    ).subscribe(([year, month, years]: [number, number, IDictionary<IMonth[]>]) => {
-      this.setCurrentMonth(get(years, `[${year}][${month}]`, null));
-    });
+  getMonthNames(): BehaviorSubject<IMonthShort[]> {
+    return this.monthNames;
+  }
+
+  setMonthNames(months: IMonthShort[]) {
+    this.getMonthNames().next(months);
+  }
+
+  getMonthNamesValue(): IMonthShort[] {
+    return this.getMonthNames().getValue();
   }
 
   getCurrentMonth(): BehaviorSubject<IMonth> {
@@ -38,20 +41,49 @@ export class CalendarDataHandlerService {
     return this.getCurrentMonth().next(month);
   }
 
-  getSelectedDays(): BehaviorSubject<ISelectedDays> {
-    return this.selectedDays;
+  getRangeDays(): BehaviorSubject<ISelectedDays> {
+    return this.rangeDays;
   }
 
-  getSelectedDaysValue(): ISelectedDays {
-    return this.getSelectedDays().getValue();
+  getRangedDaysValue(): ISelectedDays {
+    return this.getRangeDays().getValue();
   }
 
-  setSelectedDays(month: ISelectedDays) {
-    return this.getSelectedDays().next(month);
+  setRangedDays(month: ISelectedDays) {
+    return this.getRangeDays().next(month);
   }
 
   selectDay(day: IDay, isStart: boolean = true) {
-    return this.setSelectedDays(merge(this.getSelectedDaysValue(), {[isStart ? 'start' : 'end']: day}));
+    let selectedRange: ISelectedDays = cloneDeep(this.getRangedDaysValue());
+    let isChanged: boolean = false;
+
+    if (isStart && selectedRange.end && day.moment.isAfter(selectedRange.end.moment)) {
+      selectedRange = {
+        start: selectedRange.end,
+        end: day,
+      };
+
+      isChanged = true;
+    } else if (!isStart) {
+      if (!selectedRange.start) {
+        selectedRange = {
+          start: day,
+        };
+
+        isChanged = true;
+      } else if (day.moment.isBefore(selectedRange.start.moment)) {
+        selectedRange = {
+          start: day,
+          end: selectedRange.start,
+        };
+
+        isChanged = true;
+      }
+    } else if (!isChanged) {
+      selectedRange = merge({}, selectedRange, {[isStart ? 'start' : 'end']: day});
+    }
+
+    this.setRangedDays(selectedRange);
   }
 
   updateCurrentMonth(month: IMonth) {
@@ -70,6 +102,23 @@ export class CalendarDataHandlerService {
     const actualYearsData: IDictionary<IMonth[]> = this.getYearsValue();
 
     this.getYears().next(merge({}, actualYearsData, {[months[0].year]: months}));
+  }
+
+  addMonthToYear(month: IMonth) {
+    const actualYearsData: IDictionary<IMonth[]> = this.getYearsValue();
+    const foundMonthIndex: number = findIndex(actualYearsData[month.year], {numberInYear: month.numberInYear});
+
+    if (!actualYearsData[month.year]) {
+      set(actualYearsData, [month.year], [month]);
+    } else {
+      if (foundMonthIndex > -1) {
+        actualYearsData[month.year][foundMonthIndex] = month;
+      } else {
+        actualYearsData[month.year].push(month);
+      }
+    }
+
+    this.getYears().next(actualYearsData);
   }
 
   getSelectedYear(): BehaviorSubject<number> {
@@ -97,7 +146,7 @@ export class CalendarDataHandlerService {
   }
 
   getDaysName(): BehaviorSubject<string[]> {
-    return this.daysName;
+    return this.daysNames;
   }
 
   getDaysNameValue(): string[] {

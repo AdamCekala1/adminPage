@@ -4,66 +4,84 @@ import * as moment from 'moment';
 import { CALENDARCONSTANTS } from '../calendar.contants';
 import { MemoizeObject } from 'memoize-object-decorator';
 import { CalendarDataHandlerService } from './calendar-data-handler.service';
+import { LanguageService } from './language.service';
+import { combineLatest } from 'rxjs';
+import { tap } from 'rxjs/operators';
+import { IDay, IMapDays, IMapMonths, IMonth, INumberOfMissingDaysConfig } from '../shared/calendar.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CalendarService {
-  constructor(private calendarDataHandlerService: CalendarDataHandlerService) {
-    this.calendarDataHandlerService.getSelectedYear().subscribe((actualYear) => {
-      const months: IMonth[] = this.mapMonths({year: actualYear}, moment().format());
+  constructor(private calendarDataHandlerService: CalendarDataHandlerService,
+              private languageService: LanguageService) {
+    combineLatest(
+      this.languageService.getLanguage()
+        .pipe(tap((language: string) => {
+          this.calendarDataHandlerService.setDaysName(this.getDaysNames(language));
+          this.calendarDataHandlerService.setMonthNames(this.getMonthsNames(language));
+        })),
+        this.calendarDataHandlerService.getSelectedYear(),
+        this.calendarDataHandlerService.getSelectedMonth()
+        ).subscribe(([language, actualYear, actualMonth]: [string, number, number]) => {
+        const month: IMonth = this.mapMonths({
+          range: {year: actualYear, startMonth: actualMonth},
+          currentDate: moment().format(CALENDARCONSTANTS.FORMAT.CLASIC_FORMAT),
+          language,
+        });
 
-      this.calendarDataHandlerService.setYear(months);
-
-      if(!this.calendarDataHandlerService.getDaysNameValue().length) {
-        this.calendarDataHandlerService.setDaysName(this.getDaysNames(months[0].days));
-      }
-    });
+        this.calendarDataHandlerService.addMonthToYear(month);
+        this.calendarDataHandlerService.setCurrentMonth(month);
+      });
   }
 
   @MemoizeObject()
-  getDaysNames(days: IDay[]): string[] {
-    return map(days.slice(0, 7), (day: IDay) => day.moment.format(CALENDARCONSTANTS.FORMAT.ONLYDAY));
+  getDaysNames(language: string): string[] {
+    return times(7, (dayNumber: number) => moment().weekday(dayNumber).format('dddd'));
   }
 
   @MemoizeObject()
-  mapMonths(range: IMapMonthsRange, currentDate: string): IMonth[] {
-    const endMonth: number = range.endMonth || 12;
-    const startMonth: number = range.startMonth ? clone(range.startMonth) : 0;
-    const currentDateMoment: moment.Moment = moment(currentDate);
-    let actualNumberOfMonth: number = startMonth;
+  mapMonths(config: IMapMonths): IMonth {
+    const currentDateMoment: moment.Moment = moment(config.currentDate);
+    const actualNumberOfMonth: number = config.range.startMonth;
+    const monthMoment: moment.Moment = moment([config.range.year, actualNumberOfMonth]);
+    const newMonth: IMonth = {
+      year: config.range.year,
+      numberInYear: actualNumberOfMonth,
+      id: `${config.range.year}-${actualNumberOfMonth}`,
+      name: monthMoment.format('MMMM'),
+      isCurrent: currentDateMoment.diff(monthMoment, 'month') === 0,
+      isActive: false,
+      days: this.getMappedDays({
+        monthNumber: actualNumberOfMonth,
+        year: config.range.year,
+        currentDate: config.currentDate,
+        language: config.language,
+      })
+    };
 
-    return times(endMonth - startMonth, () => {
-      const monthMoment: moment.Moment = moment([range.year, actualNumberOfMonth]);
-      const newMonth: IMonth = {
-        year: range.year,
-        id: `${range.year}-${actualNumberOfMonth}`,
-        name: monthMoment.format('MMMM'),
-        isCurrent: currentDateMoment.diff(monthMoment, 'month') === 0,
-        isActive: false,
-        days: this.getMappedDays(actualNumberOfMonth, range.year, currentDate)
-      };
-
-      actualNumberOfMonth += 1;
-
-      return newMonth;
-    });
+    return newMonth;
   }
 
   @MemoizeObject()
-  private getMappedDays(monthNumber: number, year: number, currentDate: string): IDay[] {
-    const daysInMonth: number = moment([year, monthNumber]).daysInMonth();
-    const currentDateMoment: moment.Moment = moment(currentDate).startOf('day');
+  private getMappedDays(config: IMapDays): IDay[] {
+    const daysInMonth: number = moment([config.year, config.monthNumber]).daysInMonth();
+    const currentDateMoment: moment.Moment = moment(config.currentDate).startOf('day');
     const days: IDay[] = [];
-    const missingDays: {begin: number, end: number} = this.getNumberOfMissingDays(monthNumber, year);
+    const missingDays: { begin: number, end: number } = this.getNumberOfMissingDays({
+      monthNumber: config.monthNumber,
+      year: config.year,
+      language: config.language,
+    });
 
-    if(missingDays.begin) {
+    if (missingDays.begin) {
       times(missingDays.begin, (i: number) => {
-        const calculatedDate: {year: number, month: number} = this.calculateMonthAndYear(year, monthNumber - 1);
-        const momentDay: moment.Moment = moment([calculatedDate.year, calculatedDate.month, i + 1]);
+        const calculatedDate: { year: number, month: number } = this.calculateMonthAndYear(config.year, config.monthNumber - 1);
+        const numberOfDaysInMonth: number = moment([calculatedDate.year, calculatedDate.month]).daysInMonth();
+        const momentDay: moment.Moment = moment([calculatedDate.year, calculatedDate.month, numberOfDaysInMonth - i]);
 
-        days.push({
-          index: `${calculatedDate.year}-${calculatedDate.month}-${i}`,
+        days.unshift({
+          index: `${calculatedDate.year}-${calculatedDate.month}-${numberOfDaysInMonth - i}`,
           name: momentDay.format(CALENDARCONSTANTS.FORMAT.DISPLAY),
           month: calculatedDate.month,
           year: calculatedDate.year,
@@ -77,25 +95,25 @@ export class CalendarService {
     }
 
     times(daysInMonth, (i: number) => {
-      const momentDay: moment.Moment = moment([year, monthNumber, i + 1]);
+      const momentDay: moment.Moment = moment([config.year, config.monthNumber, i + 1]);
       const formatted: string = momentDay.format('YYYY-MM-DD');
 
       days.push({
-        index: `${year}-${monthNumber}-${i}`,
+        index: `${config.year}-${config.monthNumber}-${i}`,
         moment: momentDay,
         name: momentDay.format(CALENDARCONSTANTS.FORMAT.DISPLAY),
-        month: monthNumber,
+        month: config.monthNumber,
         formatted,
-        year,
+        year: config.year,
         isActive: false,
         isCurrent: currentDateMoment.diff(momentDay, 'days') === 0,
         isDisabled: false,
       });
     });
 
-    if(missingDays.end) {
+    if (missingDays.end) {
       times(missingDays.end, (i: number) => {
-        const calculatedDate: {year: number, month: number} = this.calculateMonthAndYear(year, monthNumber + 1);
+        const calculatedDate: { year: number, month: number } = this.calculateMonthAndYear(config.year, config.monthNumber + 1);
         const momentDay: moment.Moment = moment([calculatedDate.year, calculatedDate.month, i + 1]);
 
         days.push({
@@ -116,13 +134,13 @@ export class CalendarService {
   }
 
   @MemoizeObject()
-  private calculateMonthAndYear(year, month): {year: number, month: number} {
-    if(month < 12 && month >= 0) {
+  private calculateMonthAndYear(year, month): { year: number, month: number } {
+    if (month < 12 && month >= 0) {
       return {
         year,
         month,
       };
-    } else if(month < 0) {
+    } else if (month < 0) {
       return {
         year: year - 1,
         month: 11,
@@ -136,53 +154,24 @@ export class CalendarService {
   }
 
   @MemoizeObject()
-  private getNumberOfMissingDays(monthNumber: number, year: number): {begin: number, end: number} {
-    const daysInMonth: number = moment([year, monthNumber]).daysInMonth();
+  private getNumberOfMissingDays(config: INumberOfMissingDaysConfig): { begin: number, end: number } {
+    const daysInMonth: number = moment([config.year, config.monthNumber]).daysInMonth();
+    const begin: number = moment([config.year, config.monthNumber, 1]).weekday();
+    const beginFormatted: number = begin < 7 && begin >= 0 ? begin : 0;
+    const end: number = 7 - moment([config.year, config.monthNumber, daysInMonth]).weekday() - 1;
+    const endFormatted: number = end < 7 && end >= 0 ? end : 0;
 
     return {
-      begin: moment([year, monthNumber, 1]).weekday() - 1,
-      end: 7 - moment([year, monthNumber, daysInMonth]).weekday(),
+      begin: beginFormatted,
+      end: endFormatted,
     };
   }
-}
 
-export interface IMapMonthsRange {
-  year: number;
-  startMonth?: number;
-  endMonth?: number;
-}
-
-export interface ICompleteCalendarDay {
-  year: number;
-  month: number;
-  isBeginning: number;
-  numberOfDays: number;
-}
-
-export interface IMonth {
-  id: string;
-  name: string;
-  year: number;
-  isActive: boolean;
-  isCurrent: boolean;
-  days: IDay[];
-}
-
-export interface ISelectedDays {
-  start: IDay;
-  end: IDay;
-}
-
-export interface IDay {
-  index: string;
-  formatted?: string;
-  name: string;
-  moment: moment.Moment;
-  month: number;
-  year: number;
-  isActive: boolean;
-  isCurrent: boolean;
-  isDisabled: boolean;
-  isFromPreviousMonth?: boolean;
-  isFromNextMonths?: boolean;
+  @MemoizeObject()
+  private getMonthsNames(language: string) {
+    return times(12, (i: number) => ({
+      name: moment().month(i).format('MMMM'),
+      numberInYear: i,
+    }));
+  }
 }
