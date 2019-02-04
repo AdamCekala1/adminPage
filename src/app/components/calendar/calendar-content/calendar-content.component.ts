@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject } from 'rxjs';
 import { CalendarDataHandlerService } from '../providers/calendar-data-handler.service';
 import { takeUntil } from 'rxjs/operators';
-import { animate, group, style, transition, trigger } from '@angular/animations';
-import { IDay, IMonth } from '../shared/calendar.interface';
+import { IDay, IMonthWithValues } from '../shared/calendar.interface';
 import { CalendarService } from '../providers/calendar.service';
 
 @Component({
@@ -12,7 +11,7 @@ import { CalendarService } from '../providers/calendar.service';
   styleUrls: ['./calendar-content.component.scss']
 })
 export class CalendarContentComponent implements OnInit, OnDestroy {
-  month: IMonth;
+  month: IMonthWithValues;
   daysName: string[] = [];
   private onDestroy: Subject<boolean> = new Subject<boolean>();
 
@@ -27,9 +26,9 @@ export class CalendarContentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.calendarDataHandlerService.getCurrentMonth()
+    this.calendarDataHandlerService.getCurrentMonthWithValues()
       .pipe(takeUntil(this.onDestroy))
-      .subscribe((month: IMonth) => this.month = month);
+      .subscribe((month: IMonthWithValues) => this.month = month);
     this.calendarDataHandlerService.getDaysName()
       .pipe(takeUntil(this.onDestroy))
       .subscribe((days: string[]) => this.daysName = days);

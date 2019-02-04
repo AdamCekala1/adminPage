@@ -7,16 +7,32 @@
              class="calendar-filter-input"
              [readonly]="true">
       <mat-select #selectMonth
-                  [value]="activeMonth.name"
+                  [ngModel]="activeMonth"
                   class="calendar-filter-select">
         <mat-option *ngFor="let month of monthsNames"
-                    (click)="setMonth(month)">
+                    (click)="setMonth(month)"
+                    [value]="month">
          {{month.name}}
         </mat-option>
       </mat-select>
     </div>
   </div>
-  <div class="calendar-filter">
-    calendar-criteria-selector works!
+  <div class="calendar-filter"
+    (click)="openSelectYear()">
+    <div class="">
+      <input type="text"
+             [value]="activeYear"
+             [readonly]="true"
+             class="calendar-filter-input">
+      <mat-select #selectYear
+                  [ngModel]="activeYear"
+                  class="calendar-filter-select">
+        <mat-option *ngFor="let year of years"
+                    (click)="setYear(year)"
+                    [value]="year">
+          {{year}}
+        </mat-option>
+      </mat-select>
+    </div>
   </div>
 </div>

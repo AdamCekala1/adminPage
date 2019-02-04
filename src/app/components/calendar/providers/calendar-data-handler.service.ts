@@ -3,19 +3,87 @@ import { IDictionary } from '../../../shared/interfaces/utilis.interfaces';
 import * as moment from 'moment';
 import { cloneDeep, find, findIndex, get, merge, set } from 'lodash';
 import { BehaviorSubject, combineLatest } from 'rxjs';
-import { IDay, IMonth, IMonthShort, ISelectedDays } from '../shared/calendar.interface';
+import {
+  IDate,
+  IDay, IDayValue,
+  IDayWithValues,
+  IMonth,
+  IMonthShort,
+  IMonthWithValues,
+  ISelectedDays,
+  IUserDataDay,
+  IUserDataInput
+} from '../shared/calendar.interface';
+
+const mockUserValue = {
+  2019: {
+    1: {
+      1: {
+        values: [{color: 'red', value: 'Some text'}, {color: 'blue', value: 'xxxx'}],
+        description: 'some description',
+        title: 'some title',
+      },
+      4: {
+        values: [{color: 'blue', value: 'jakis test'}],
+      },
+      13: {
+        values: [{color: 'red', value: 'co my tu mamy?'}],
+        description: 'some description',
+      },
+      22: {
+        title: 'some title',
+      },
+      26: {
+        values: [{color: 'red', value: 'lorem ipsum ect'}, {color: 'blue', value: 'jakis przyklad'}],
+      },
+    }
+  }
+};
 
 @Injectable({
   providedIn: 'root'
 })
 export class CalendarDataHandlerService {
+  private userInputData: BehaviorSubject<IUserDataInput> = new BehaviorSubject(mockUserValue);
   private rangeDays: BehaviorSubject<ISelectedDays> = new BehaviorSubject(null);
   private currentMonth: BehaviorSubject<IMonth> = new BehaviorSubject(null);
+  private currentMonthWithValues: BehaviorSubject<IMonthWithValues> = new BehaviorSubject(null);
   private years: BehaviorSubject<IDictionary<IMonth[]>> = new BehaviorSubject({});
   private selectedYear: BehaviorSubject<number> = new BehaviorSubject(moment().year());
   private selectedMonth: BehaviorSubject<number> = new BehaviorSubject(moment().month());
   private daysNames: BehaviorSubject<string[]> = new BehaviorSubject([]);
   private monthNames: BehaviorSubject<IMonthShort[]> = new BehaviorSubject([]);
+
+  getUserData(): BehaviorSubject<IUserDataInput> {
+    return this.userInputData;
+  }
+
+  getUserDataValue(): IUserDataInput {
+    return this.getUserData().getValue();
+  }
+
+  getUserDataValueByMonthAndYear(year: number, month: number): IDictionary<IUserDataDay> {
+    const userData: IUserDataInput = this.getUserDataValue();
+
+    return get(userData, `[${year}][${month}]`, {});
+  }
+
+  setUserData(data: IUserDataInput) {
+    this.getUserData().next(data);
+  }
+
+  updateUserData({day, month, year}: IDate, data: IUserDataDay) {
+    const actualData: IUserDataInput = this.getUserDataValue() || {};
+    const actualDataDay: IDayWithValues = get(actualData, `[${year}][${month}][${day}]`);
+
+    if(actualDataDay) {
+      actualData[year][month][day] = merge({}, actualDataDay, data);
+    } else {
+      set(actualData, `[${year}][${month}][${day}]`, data);
+    }
+
+    this.getUserData().next(actualData);
+  }
 
   getMonthNames(): BehaviorSubject<IMonthShort[]> {
     return this.monthNames;
@@ -39,6 +107,18 @@ export class CalendarDataHandlerService {
 
   setCurrentMonth(month: IMonth) {
     return this.getCurrentMonth().next(month);
+  }
+
+  getCurrentMonthWithValues(): BehaviorSubject<IMonthWithValues> {
+    return this.currentMonthWithValues;
+  }
+
+  getCurrentMonthWithValuesValue(): IMonthWithValues {
+    return this.getCurrentMonthWithValues().getValue();
+  }
+
+  setCurrentMonthWithValues(month: IMonthWithValues) {
+    return this.getCurrentMonthWithValues().next(month);
   }
 
   getRangeDays(): BehaviorSubject<ISelectedDays> {
@@ -106,7 +186,7 @@ export class CalendarDataHandlerService {
 
   addMonthToYear(month: IMonth) {
     const actualYearsData: IDictionary<IMonth[]> = this.getYearsValue();
-    const foundMonthIndex: number = findIndex(actualYearsData[month.year], {numberInYear: month.numberInYear});
+    const foundMonthIndex: number = findIndex(actualYearsData[month.year], {monthNumberInYear: month.monthNumberInYear});
 
     if (!actualYearsData[month.year]) {
       set(actualYearsData, [month.year], [month]);

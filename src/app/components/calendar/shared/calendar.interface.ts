@@ -32,12 +32,16 @@ export interface ICompleteCalendarDay {
   numberOfDays: number;
 }
 
-export interface IMonth extends IMonthShort {
+export type IMonthWithValues = IMonthGeneral<IDayWithValues>;
+
+export type IMonth = IMonthGeneral<IDay>;
+
+export interface IMonthGeneral<T> extends IMonthShort {
   id: string;
   year: number;
   isActive: boolean;
   isCurrent: boolean;
-  days: IDay[];
+  days: T[];
 }
 
 export interface ISelectedDays {
@@ -46,6 +50,7 @@ export interface ISelectedDays {
 }
 
 export interface IDay {
+  date: IDate;
   index: string;
   formatted?: string;
   name: string;
@@ -59,7 +64,55 @@ export interface IDay {
   isFromNextMonths?: boolean;
 }
 
+export interface IDayWithValues extends IDay {
+  values?: IDayValue[];
+  description?: string;
+  title?: string;
+}
+
+export interface IDate {
+  day: number;
+  month: number;
+  year: number;
+}
+
+/*
+
+{
+  2019: {
+    1: {
+      dayNumber: number;
+      values?: IDayValue[];
+      description?: string;
+      title?: string;
+    }
+  }
+}
+
+
+ */
+
+export interface IUserDataInput {
+  [yearKey: number]: {
+    [monthKey: number]: {
+      [dayKey: number]: IUserDataDay
+    };
+  };
+}
+
+export interface IUserDataDay {
+  values?: IDayValue[];
+  description?: string;
+  title?: string;
+}
+
+
+export interface IDayValue {
+  color?: string;
+  value: string;
+}
+
 export interface IMonthShort {
   name: string;
-  numberInYear: number;
+  monthNumberInYear: number;
 }

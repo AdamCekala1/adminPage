@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { clone, map, times } from 'lodash';
+import { clone, cloneDeep, isEqual, isEmpty, findIndex, forEach, map, merge, times, toNumber } from 'lodash';
 import * as moment from 'moment';
 import { CALENDARCONSTANTS } from '../calendar.contants';
 import { MemoizeObject } from 'memoize-object-decorator';
@@ -7,7 +7,16 @@ import { CalendarDataHandlerService } from './calendar-data-handler.service';
 import { LanguageService } from './language.service';
 import { combineLatest } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { IDay, IMapDays, IMapMonths, IMonth, INumberOfMissingDaysConfig } from '../shared/calendar.interface';
+import {
+  IDay,
+  IMapDays,
+  IMapMonths,
+  IMonth,
+  IMonthWithValues,
+  INumberOfMissingDaysConfig,
+  IUserDataDay
+} from '../shared/calendar.interface';
+import { IDictionary } from '../../../shared/interfaces/utilis.interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -21,18 +30,59 @@ export class CalendarService {
           this.calendarDataHandlerService.setDaysName(this.getDaysNames(language));
           this.calendarDataHandlerService.setMonthNames(this.getMonthsNames(language));
         })),
-        this.calendarDataHandlerService.getSelectedYear(),
-        this.calendarDataHandlerService.getSelectedMonth()
-        ).subscribe(([language, actualYear, actualMonth]: [string, number, number]) => {
-        const month: IMonth = this.mapMonths({
-          range: {year: actualYear, startMonth: actualMonth},
-          currentDate: moment().format(CALENDARCONSTANTS.FORMAT.CLASIC_FORMAT),
-          language,
-        });
-
-        this.calendarDataHandlerService.addMonthToYear(month);
-        this.calendarDataHandlerService.setCurrentMonth(month);
+      this.calendarDataHandlerService.getSelectedYear(),
+      this.calendarDataHandlerService.getSelectedMonth()
+    ).subscribe(([language, actualYear, actualMonth]: [string, number, number]) => {
+      const month: IMonth = this.mapMonths({
+        range: {year: actualYear, startMonth: actualMonth},
+        currentDate: moment().format(CALENDARCONSTANTS.FORMAT.CLASIC_FORMAT),
+        language,
       });
+
+      this.calendarDataHandlerService.addMonthToYear(month);
+      this.calendarDataHandlerService.setCurrentMonth(month);
+    });
+
+    this.calendarDataHandlerService.getCurrentMonth()
+      .subscribe((month: IMonth) => {
+        this.getUpdatedCalendarByUserData(month);
+      });
+  }
+
+  getUpdatedCalendarByUserData(month: IMonth) {
+    const userDataForThisMonth: IDictionary<IUserDataDay> = this.calendarDataHandlerService.getUserDataValueByMonthAndYear(
+      month.year,
+      month.monthNumberInYear,
+    );
+    let mergedCalendarWithData: IMonthWithValues = month;
+    // const userDataFromPreviousMonth: IDictionary<IUserDataDay> = this.calendarDataHandlerService.getUserDataValueByDaysRange(
+    //   month.year,
+    //   month.monthNumberInYear,
+    //   {start: 'x', end: 'x'}
+    // );
+
+    if(!isEmpty(userDataForThisMonth)) {
+      mergedCalendarWithData = this.updateCalendarWithData(month, month.monthNumberInYear, userDataForThisMonth);
+    }
+
+    this.calendarDataHandlerService.setCurrentMonthWithValues(mergedCalendarWithData);
+  }
+
+  @MemoizeObject()
+  updateCalendarWithData(month: IMonth, monthNumber: number, data: IDictionary<IUserDataDay>): IMonthWithValues {
+    const updatedMonth: IMonthWithValues = cloneDeep(month) as IMonthWithValues;
+
+    forEach(data, (value: IUserDataDay, numberOfDay: number) => {
+      const foundIndex: number = findIndex(updatedMonth.days, {date: {month: monthNumber, year: month.year, day: toNumber(numberOfDay)}})
+
+      if (foundIndex > -1) {
+        const actualDay: IDay = updatedMonth.days[foundIndex];
+
+        updatedMonth.days[foundIndex] = merge({}, actualDay, value);
+      }
+    });
+
+    return updatedMonth;
   }
 
   @MemoizeObject()
@@ -47,7 +97,7 @@ export class CalendarService {
     const monthMoment: moment.Moment = moment([config.range.year, actualNumberOfMonth]);
     const newMonth: IMonth = {
       year: config.range.year,
-      numberInYear: actualNumberOfMonth,
+      monthNumberInYear: actualNumberOfMonth,
       id: `${config.range.year}-${actualNumberOfMonth}`,
       name: monthMoment.format('MMMM'),
       isCurrent: currentDateMoment.diff(monthMoment, 'month') === 0,
@@ -81,6 +131,11 @@ export class CalendarService {
         const momentDay: moment.Moment = moment([calculatedDate.year, calculatedDate.month, numberOfDaysInMonth - i]);
 
         days.unshift({
+          date: {
+            year: calculatedDate.year,
+            month: calculatedDate.month,
+            day: numberOfDaysInMonth - i,
+          },
           index: `${calculatedDate.year}-${calculatedDate.month}-${numberOfDaysInMonth - i}`,
           name: momentDay.format(CALENDARCONSTANTS.FORMAT.DISPLAY),
           month: calculatedDate.month,
@@ -99,6 +154,11 @@ export class CalendarService {
       const formatted: string = momentDay.format('YYYY-MM-DD');
 
       days.push({
+        date: {
+          year: config.year,
+          month: config.monthNumber,
+          day: i + 1,
+        },
         index: `${config.year}-${config.monthNumber}-${i}`,
         moment: momentDay,
         name: momentDay.format(CALENDARCONSTANTS.FORMAT.DISPLAY),
@@ -117,6 +177,11 @@ export class CalendarService {
         const momentDay: moment.Moment = moment([calculatedDate.year, calculatedDate.month, i + 1]);
 
         days.push({
+          date: {
+            year: calculatedDate.year,
+            month: calculatedDate.month,
+            day: i + 1,
+          },
           index: `${calculatedDate.year}-${calculatedDate.month}-${i}`,
           name: momentDay.format(CALENDARCONSTANTS.FORMAT.DISPLAY),
           month: calculatedDate.month,
@@ -171,7 +236,7 @@ export class CalendarService {
   private getMonthsNames(language: string) {
     return times(12, (i: number) => ({
       name: moment().month(i).format('MMMM'),
-      numberInYear: i,
+      monthNumberInYear: i,
     }));
   }
 }

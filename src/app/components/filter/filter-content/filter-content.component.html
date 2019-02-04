@@ -19,10 +19,12 @@
                 [value]="actualValue"
                 class="filter-select">
       <mat-option *ngIf="filter.nullOption?.canBeNull"
+                  [value]="''"
                   (click)="selectValue('')">
         {{filter.nullOption.textToClear}}
       </mat-option>
       <mat-option *ngFor="let selectOption of filter.values"
+                  [value]="selectOption"
                   (click)="selectValue(selectOption)">
         {{selectOption}}
       </mat-option>

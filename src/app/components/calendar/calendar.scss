@@ -4,6 +4,15 @@
 $color-select: $color-select;
 $color-border: $color-primary;
 
+.mat-select-value-text {
+  display: none !important;
+}
+
+.display-flex {
+  display: flex;
+  align-items: center;
+}
+
 .calendar {
   &-filter {
     &-wrapper {
@@ -26,11 +35,9 @@ $color-border: $color-primary;
       font-weight: bold;
       position: absolute;
       top: 50%;
-      //height: 55px;
       background: transparent;
       z-index: 5;
       transform: translateY(-50%);
-      //font-size: 55px;
 
       &::placeholder {
         color: #757575;
@@ -40,10 +47,7 @@ $color-border: $color-primary;
     cursor: pointer;
     position: relative;
     height: 40px;
-    border: 1px solid $color-primary;
-    border-radius: 0;
     padding: 10px;
-    //margin-right: 10px;
     align-items: center;
     box-sizing: border-box;
     width: 170px;
@@ -69,21 +73,28 @@ $color-border: $color-primary;
   }
 
   &-value {
-    font-weight: 900;
-    font-size: 21px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    font-size: 16px;
+    position: relative;
+
+    &-color {
+      width: 10px;
+      height: 5px;
+      margin-right: 5px;
+      background: red;
+      display: inline-block;
+    }
+
+    > * {
+      padding-top: 5px;
+    }
 
     &-subvalue {
+      display: flex;
       color: $color-disable;
-      position: absolute;
-      bottom: 8px;
-      width: 90%;
-      margin: auto;
-      left: 5%;
-      text-align: center;
+      text-align: left;
+      padding-top: 5px;
+      margin-top: 5px;
+      border-top: 1px solid $color-border;
     }
   }
 

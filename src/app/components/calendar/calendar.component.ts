@@ -23,8 +23,8 @@ export class CalendarComponent {
     this.displayCalendar = !this.displayCalendar;
   }
 
-  setLocale() {
-    this.languageService.setLanguage('pl-PL')
+  setLocale(value) {
+    this.languageService.setLanguage(value)
   }
 }
 

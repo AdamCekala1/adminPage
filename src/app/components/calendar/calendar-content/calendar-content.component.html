@@ -10,12 +10,20 @@
        [class.calendar-disabled]="day.isDisabled"
        (click)="setAsActive(day)"
        class="calendar-day">
-    <span class="calendar-value">2860kcal</span>
-    <!--<span class="calendar-value-subvalue"-->
-    <!--[class.calendar-warning]="i%5 === 1"-->
-    <!--[class.calendar-success]="i%5 === 0">-->
-    <!--Some description-->
-    <!--</span>-->
+    <span class="calendar-value">
+      <ng-container *ngIf="day.values && day.values.length">
+         <div *ngFor="let dayValue of day.values"
+              class="display-flex">
+          <span class="calendar-value-color"
+                [style.background]="dayValue.color"></span>
+          <div class="calendar-value-text">{{dayValue.value}}</div>
+        </div>
+      </ng-container>
+      <span *ngIf="day.description"
+            class="calendar-value-subvalue">
+       {{day.description}}
+    </span>
+    </span>
     <span class="calendar-day-number">{{day.name}}</span>
   </div>
 </div>
