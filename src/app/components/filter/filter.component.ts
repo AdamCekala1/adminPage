@@ -34,8 +34,6 @@ export class FilterComponent {
   }
 
   submit() {
-    console.log(this.form.value);
-
     this.onSubmit.emit(this.form.value);
   }
 

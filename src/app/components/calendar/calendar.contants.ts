@@ -3,5 +3,6 @@ export class CALENDARCONSTANTS {
     DISPLAY: 'DD MMM',
     ONLYDAY: 'dddd',
     CLASIC_FORMAT: 'YYYY-MM-DD',
+    ID: 'YYYYMMDD',
   };
 }

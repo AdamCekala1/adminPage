@@ -1,22 +1,25 @@
 import { Injectable } from '@angular/core';
-import { clone, cloneDeep, isEqual, isEmpty, findIndex, forEach, map, merge, times, toNumber } from 'lodash';
+import { clone, cloneDeep, get, isEqual, isEmpty, filter, findIndex, forEach, map, merge, times, toNumber } from 'lodash';
 import * as moment from 'moment';
 import { CALENDARCONSTANTS } from '../calendar.contants';
 import { MemoizeObject } from 'memoize-object-decorator';
 import { CalendarDataHandlerService } from './calendar-data-handler.service';
 import { LanguageService } from './language.service';
 import { combineLatest } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
 import {
   IDay,
   IMapDays,
   IMapMonths,
   IMonth,
   IMonthWithValues,
-  INumberOfMissingDaysConfig,
-  IUserDataDay
+  INumberOfMissingDaysConfig, ISelectedDays,
+  IUserDataDay,
+  IUserDataInput
 } from '../shared/calendar.interface';
 import { IDictionary } from '../../../shared/interfaces/utilis.interfaces';
+import { SelectDayType } from '../shared/select-day-type.enum';
+import { SelectDayMode } from '../shared/select-day-mode.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -31,49 +34,84 @@ export class CalendarService {
           this.calendarDataHandlerService.setMonthNames(this.getMonthsNames(language));
         })),
       this.calendarDataHandlerService.getSelectedYear(),
-      this.calendarDataHandlerService.getSelectedMonth()
-    ).subscribe(([language, actualYear, actualMonth]: [string, number, number]) => {
-      const month: IMonth = this.mapMonths({
-        range: {year: actualYear, startMonth: actualMonth},
-        currentDate: moment().format(CALENDARCONSTANTS.FORMAT.CLASIC_FORMAT),
-        language,
+      this.calendarDataHandlerService.getSelectedMonth(),
+    ).pipe(debounceTime(200))
+      .subscribe(([language, actualYear, actualMonth]: [string, number, number]) => {
+        const month: IMonth = this.mapMonths({
+          range: {year: actualYear, startMonth: actualMonth},
+          currentDate: moment().format(CALENDARCONSTANTS.FORMAT.CLASIC_FORMAT),
+          language,
+        });
+
+        this.calendarDataHandlerService.addMonthToYear(month);
+        this.calendarDataHandlerService.setCurrentMonth(month);
       });
 
-      this.calendarDataHandlerService.addMonthToYear(month);
-      this.calendarDataHandlerService.setCurrentMonth(month);
-    });
-
-    this.calendarDataHandlerService.getCurrentMonth()
-      .subscribe((month: IMonth) => {
-        this.getUpdatedCalendarByUserData(month);
+    combineLatest(
+      this.calendarDataHandlerService.getCurrentMonth(),
+      this.calendarDataHandlerService.getUserData(),
+    )
+      .subscribe(([month]: [IMonth, IUserDataInput]) => {
+        if(month) {
+          this.setUpdatedCalendarByUserData(month);
+        }
       });
   }
 
-  getUpdatedCalendarByUserData(month: IMonth) {
-    const userDataForThisMonth: IDictionary<IUserDataDay> = this.calendarDataHandlerService.getUserDataValueByMonthAndYear(
-      month.year,
-      month.monthNumberInYear,
-    );
-    let mergedCalendarWithData: IMonthWithValues = month;
-    // const userDataFromPreviousMonth: IDictionary<IUserDataDay> = this.calendarDataHandlerService.getUserDataValueByDaysRange(
-    //   month.year,
-    //   month.monthNumberInYear,
-    //   {start: 'x', end: 'x'}
-    // );
+  getDaysWithSelectedFlags(selected: ISelectedDays, days: IDay[], mode?: SelectDayMode): IDay[] {
+    const foundDates: {index: string, type: SelectDayType}[] = [];
 
-    if(!isEmpty(userDataForThisMonth)) {
-      mergedCalendarWithData = this.updateCalendarWithData(month, month.monthNumberInYear, userDataForThisMonth);
+    forEach(selected, (value: IDay, type: SelectDayType) => {
+      const foundDayIndex: number = findIndex(days, {index: value.index, isActive: false});
+      const foundFalsyActiveDayIndex: number = findIndex(days, (day: IDay) => {
+        return day.isActive && day.selectDayType === type && day.index !== value.index;
+      });
+
+      if(foundDayIndex > -1) {
+        days[foundDayIndex].isActive = true;
+        days[foundDayIndex].selectDayType = type;
+        foundDates.push({index: value.index, type});
+      }
+
+      if(foundFalsyActiveDayIndex > -1) {
+        days[foundFalsyActiveDayIndex].isActive = false;
+        days[foundFalsyActiveDayIndex].selectDayType = null;
+      }
+    });
+
+    if(selected.start) {
+      return map(days, (day: IDay) => {
+        day.isDisabled = mode === SelectDayMode.HALF_DOUBLE && day.index < selected.start.index;
+        day.isInRange = selected.end && day.index > selected.start.index && day.index < selected.end.index;
+
+        return day;
+      });
     }
+
+    return days;
+  }
+
+  setUpdatedCalendarByUserData(month: IMonth) {
+    let mergedCalendarWithData: IMonthWithValues = this.getUpdatedMonth(month, true, false);
+
+    mergedCalendarWithData = this.getUpdatedMonth(mergedCalendarWithData, false, true);
+    mergedCalendarWithData = this.getUpdatedMonth(mergedCalendarWithData);
 
     this.calendarDataHandlerService.setCurrentMonthWithValues(mergedCalendarWithData);
   }
 
   @MemoizeObject()
-  updateCalendarWithData(month: IMonth, monthNumber: number, data: IDictionary<IUserDataDay>): IMonthWithValues {
+  getUpdatedCalendarWithUserData(month: IMonth, data: IDictionary<IUserDataDay>, monthNumber?: number, yearNumber?: number): IMonthWithValues {
     const updatedMonth: IMonthWithValues = cloneDeep(month) as IMonthWithValues;
 
     forEach(data, (value: IUserDataDay, numberOfDay: number) => {
-      const foundIndex: number = findIndex(updatedMonth.days, {date: {month: monthNumber, year: month.year, day: toNumber(numberOfDay)}})
+      const foundIndex: number = findIndex(updatedMonth.days, {
+        date: {
+          month: (monthNumber || monthNumber === 0) ? monthNumber : month.monthNumberInYear,
+          year: yearNumber || month.year,
+          day: toNumber(numberOfDay),
+        }
+      });
 
       if (foundIndex > -1) {
         const actualDay: IDay = updatedMonth.days[foundIndex];
@@ -136,15 +174,16 @@ export class CalendarService {
             month: calculatedDate.month,
             day: numberOfDaysInMonth - i,
           },
-          index: `${calculatedDate.year}-${calculatedDate.month}-${numberOfDaysInMonth - i}`,
+          isPrev: true,
+          index: momentDay.format(CALENDARCONSTANTS.FORMAT.ID),
           name: momentDay.format(CALENDARCONSTANTS.FORMAT.DISPLAY),
           month: calculatedDate.month,
           year: calculatedDate.year,
           moment: momentDay,
           isActive: false,
           isCurrent: currentDateMoment.diff(momentDay, 'days') === 0,
-          isDisabled: true,
-          isFromPreviousMonth: true,
+          isDisabled: false,
+          isDifferentMonth: true,
         });
       });
     }
@@ -159,15 +198,17 @@ export class CalendarService {
           month: config.monthNumber,
           day: i + 1,
         },
-        index: `${config.year}-${config.monthNumber}-${i}`,
+        index: momentDay.format(CALENDARCONSTANTS.FORMAT.ID),
         moment: momentDay,
         name: momentDay.format(CALENDARCONSTANTS.FORMAT.DISPLAY),
         month: config.monthNumber,
         formatted,
         year: config.year,
         isActive: false,
+        isInRange: false,
         isCurrent: currentDateMoment.diff(momentDay, 'days') === 0,
         isDisabled: false,
+        isDifferentMonth: false,
       });
     });
 
@@ -182,15 +223,16 @@ export class CalendarService {
             month: calculatedDate.month,
             day: i + 1,
           },
-          index: `${calculatedDate.year}-${calculatedDate.month}-${i}`,
+          isAfter: true,
+          index: momentDay.format(CALENDARCONSTANTS.FORMAT.ID),
           name: momentDay.format(CALENDARCONSTANTS.FORMAT.DISPLAY),
           month: calculatedDate.month,
           year: calculatedDate.year,
           isActive: false,
           moment: momentDay,
           isCurrent: currentDateMoment.diff(momentDay, 'days') === 0,
-          isDisabled: true,
-          isFromNextMonths: true,
+          isDisabled: false,
+          isDifferentMonth: true,
         });
       });
     }
@@ -238,5 +280,20 @@ export class CalendarService {
       name: moment().month(i).format('MMMM'),
       monthNumberInYear: i,
     }));
+  }
+
+  private getUpdatedMonth(month: IMonth, isAfter?: boolean, isPrev?: boolean): IMonth {
+    const days: IDay[] = (isAfter || isPrev) ? filter(month.days, isAfter ? 'isAfter' : 'isPrev') : month.days;
+    const shouldGetDateFromDays: boolean = (isPrev || isAfter) && !!days.length;
+    const monthNumber: number = shouldGetDateFromDays ? days[0].date.month : month.monthNumberInYear;
+    const year: number = shouldGetDateFromDays ? days[0].date.year : month.year;
+    const userDataForAfterMonth: IDictionary<IUserDataDay>
+      = this.calendarDataHandlerService.getUserDataValueByMonthAndYear(year, monthNumber);
+
+    if (!isEmpty(userDataForAfterMonth)) {
+      return this.getUpdatedCalendarWithUserData(month, userDataForAfterMonth, monthNumber, year);
+    }
+
+    return month;
   }
 }

@@ -1,5 +1,6 @@
 <mat-card class="calendar-card">
-  <app-filter [filters]="filters" [isSubmitDisplayed]="false"></app-filter>
+  <app-filter [filters]="filters"
+              [isSubmitDisplayed]="false"></app-filter>
   <button (click)="displayCalendar = !displayCalendar">Toggle</button>
   <button (click)="setLocale('en')">en</button>
   <button (click)="setLocale('pl')">pl</button>

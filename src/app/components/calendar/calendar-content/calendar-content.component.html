@@ -8,6 +8,8 @@
        [class.calendar-today]="day.isCurrent"
        [class.calendar-selected]="day.isActive"
        [class.calendar-disabled]="day.isDisabled"
+       [class.calendar-different-month]="day.isDifferentMonth"
+       [class.calendar-range]="day.isInRange || day.isActive"
        (click)="setAsActive(day)"
        class="calendar-day">
     <span class="calendar-value">

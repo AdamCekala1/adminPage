@@ -1,4 +1,5 @@
 import * as moment from 'moment';
+import { SelectDayType } from './select-day-type.enum';
 
 export interface IMapMonths {
   range: IMapMonthsRange;
@@ -45,12 +46,14 @@ export interface IMonthGeneral<T> extends IMonthShort {
 }
 
 export interface ISelectedDays {
-  start: IDay;
-  end?: IDay;
+  [SelectDayType.START]: IDay;
+  [SelectDayType.END]?: IDay;
 }
 
 export interface IDay {
   date: IDate;
+  isAfter?: boolean;
+  isPrev?: boolean;
   index: string;
   formatted?: string;
   name: string;
@@ -58,10 +61,11 @@ export interface IDay {
   month: number;
   year: number;
   isActive: boolean;
+  selectDayType?: SelectDayType;
+  isInRange?: boolean;
   isCurrent: boolean;
   isDisabled: boolean;
-  isFromPreviousMonth?: boolean;
-  isFromNextMonths?: boolean;
+  isDifferentMonth: boolean;
 }
 
 export interface IDayWithValues extends IDay {

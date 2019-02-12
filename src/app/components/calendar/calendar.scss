@@ -117,7 +117,7 @@ $color-border: $color-primary;
     box-sizing: border-box;
 
     &:hover {
-      border: 1px solid $color-select !important;
+      border: 1px solid $color-select;
     }
 
     &:nth-last-child(-n+7) {
@@ -141,6 +141,10 @@ $color-border: $color-primary;
   }
 
 //  actions
+  &-range {
+    background: rgba($color-select, 0.03);
+  }
+
   &-success {
     color: $color-success;
   }
@@ -150,10 +154,14 @@ $color-border: $color-primary;
   }
 
   &-selected {
-    border: 1px solid $color-select;
+    border-bottom: 4px solid $color-select !important;
   }
 
   &-disabled {
+    background: rgba($color-disable-bg, 0.4);
+  }
+
+  &-different-month {
     background: $color-disable-bg;
   }
 
