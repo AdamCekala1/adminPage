@@ -12,23 +12,24 @@ import { IDictionary } from '../../shared/interfaces/utilis.interfaces';
 })
 export class FilterComponent {
   @Input('filters') set setFilters(filters: IFilter[]) {
+    console.log('filters', filters)
     if(this.form) {
       this.updateForm(filters);
     } else {
       this.createForm(filters);
     }
   }
+  @Input() activeFilterName: string;
   @Input() isSubmitDisplayed: boolean = true;
   @Output() onSubmit: EventEmitter<IDictionary<any>> = new EventEmitter();
   @Output() onActiveInput: EventEmitter<IFilter> = new EventEmitter();
-  activeFilterName: string;
   filters: IFilter[] = [];
   form: FormGroup;
 
   constructor(private filterService: FilterService, private formBuilder: FormBuilder) { }
 
   handleActiveInput(filter: IFilter) {
-    this.activeFilterName = filter.name;
+    // this.activeFilterName = filter.name;
 
     this.onActiveInput.emit(filter);
   }

@@ -61,7 +61,7 @@ export class CalendarService {
       });
   }
 
-  getDaysWithSelectedFlags(selected: ISelectedDays, days: IDay[], mode?: SelectDayMode): IDay[] {
+  getDaysWithSelectedFlags(selected: ISelectedDays, days: IDay[], dataSet: number, mode?: SelectDayMode): IDay[] {
     const foundDates: {index: string, type: SelectDayType}[] = [];
 
     forEach(selected, (value: IDay, type: SelectDayType) => {
@@ -82,10 +82,11 @@ export class CalendarService {
       }
     });
 
-    if(selected.start) {
+    if(selected[SelectDayType.START]) {
       return map(days, (day: IDay) => {
-        day.isDisabled = mode === SelectDayMode.HALF_DOUBLE && day.index < selected.start.index;
-        day.isInRange = selected.end && day.index > selected.start.index && day.index < selected.end.index;
+        day.isDisabled =  dataSet !== 0 && mode === SelectDayMode.HALF_DOUBLE && day.index < selected[SelectDayType.START].index;
+        day.isInRange = selected[SelectDayType.END] && day.index > selected[SelectDayType.START].index
+          && day.index < selected[SelectDayType.END].index;
 
         return day;
       });

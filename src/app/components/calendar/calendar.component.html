@@ -1,5 +1,9 @@
 <mat-card class="calendar-card">
-  <app-filter [filters]="filters"
+  <app-filter *ngIf="displayFilters && selectDayMode.HALF_DOUBLE === activeMode"
+              class="calendar-packagefilter"
+              (onActiveInput)="setOtherActiveDataSet($event)"
+              [filters]="filters"
+              [activeFilterName]="activeFilter"
               [isSubmitDisplayed]="false"></app-filter>
   <app-smooth-height-animation [trigger]="displayCalendar">
     <app-calendar-content *ngIf="displayCalendar"></app-calendar-content>

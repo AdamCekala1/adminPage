@@ -5,6 +5,7 @@ import './rxjs';
 import { IUserDataInput } from './components/calendar/shared/calendar.interface';
 import { StorageCalendar } from './components/calendar/providers/storage-calendar.service';
 import { StorageCalendarKey } from './components/calendar/shared/storage-keys.enums';
+import { SelectDayMode } from './components/calendar/shared/select-day-mode.enum';
 
 @Component({
   selector: 'app-root',
@@ -17,6 +18,7 @@ export class AppComponent {
   displayCalendar: boolean = true;
   lang: string = 'en';
   activeSet: number = 0;
+  readonly selectDayMode = SelectDayMode;
 
   constructor(private storageCalendar: StorageCalendar) {
   }

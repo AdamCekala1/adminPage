@@ -14,6 +14,12 @@ $color-border: $color-primary;
 }
 
 .calendar {
+  &-packagefilter {
+    display: block;
+    border-bottom: 1px solid $color-border;
+    margin-bottom: 30px;
+  };
+
   &-filter {
     &-wrapper {
       display: flex;
@@ -116,7 +122,13 @@ $color-border: $color-primary;
     cursor: pointer;
     box-sizing: border-box;
 
-    &:hover {
+    &:hover::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
       border: 1px solid $color-select;
     }
 

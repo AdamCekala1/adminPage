@@ -7,7 +7,6 @@ $color-border: $color-primary;
 .filters-container, .filters-wrapper {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
   position: relative;
   flex-wrap: wrap;
 }
@@ -24,9 +23,7 @@ $color-border: $color-primary;
 .width-100p {
   width: 100% !important;
 }
-//
-//
-//
+
 .filters-submit {
   width: 100%;
   display: flex;

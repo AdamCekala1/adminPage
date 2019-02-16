@@ -18,7 +18,8 @@ export class DaysActionsService {
   setActiveDay(day: IDay) {
     const selectedRange: ISelectedDays = this.storageCalendar.getValueFromStorage(StorageCalendarKey.RANGE_DAYS) || {};
     const mode: SelectDayMode = this.storageCalendar.getValueFromStorage(StorageCalendarKey.SELECT_DAY_MODE);
-    const newSelectedRange: ISelectedDays = this.getSelectedRange(day, selectedRange, mode);
+    const shouldSelectFirstDate: boolean = this.storageCalendar.getValueFromStorage(StorageCalendarKey.SELECTED_DATA_SET) === 0;
+    const newSelectedRange: ISelectedDays = this.getSelectedRange(day, selectedRange, mode, shouldSelectFirstDate);
 
     this.storageCalendar.setToStorage(StorageCalendarKey.RANGE_DAYS, newSelectedRange);
 
@@ -29,8 +30,8 @@ export class DaysActionsService {
   }
 
   @MemoizeObject()
-  private getSelectedRange(day: IDay, selectedRange: ISelectedDays, mode: SelectDayMode): ISelectedDays {
-    if (!get(selectedRange, SelectDayType.START) || mode === SelectDayMode.SINGLE) {
+  private getSelectedRange(day: IDay, selectedRange: ISelectedDays, mode: SelectDayMode, shouldSelectFirstDate: boolean): ISelectedDays {
+    if (!get(selectedRange, SelectDayType.START) || mode === SelectDayMode.SINGLE || shouldSelectFirstDate) {
       day.selectDayType = SelectDayType.START;
       selectedRange[SelectDayType.START] = day;
     } else {

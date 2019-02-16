@@ -35,12 +35,14 @@ export class CalendarContentComponent implements OnInit, OnDestroy {
     combineLatest(
       this.storageCalendar.getFromStorage(StorageCalendarKey.CURRENT_MONTH_WITH_VALUES),
       this.storageCalendar.getFromStorage(StorageCalendarKey.RANGE_DAYS),
+      this.storageCalendar.getFromStorage(StorageCalendarKey.SELECTED_DATA_SET),
     ).pipe(takeUntil(this.onDestroy))
-      .subscribe(([month, selectedDays]: [IMonthWithValues, ISelectedDays]) => {
+      .subscribe(([month, selectedDays, dataSet]: [IMonthWithValues, ISelectedDays, number]) => {
         if(month && selectedDays) {
           const days: IDay[] = this.calendarService.getDaysWithSelectedFlags(
             selectedDays,
             month.days,
+            dataSet,
             this.storageCalendar.getValueFromStorage(StorageCalendarKey.SELECT_DAY_MODE)
           );
 

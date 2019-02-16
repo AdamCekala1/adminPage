@@ -5,6 +5,7 @@
        class="filters-wrapper">
     <div *ngFor="let filter of filters; let i = index"
          (click)="handleActiveInput(filter)"
+         id="filter-{{filter.name}}"
          class="filter-wrapper padding-rigth-10"
          [style.width.%]="100/filters.length">
       <app-filter-content [formControlName]="filter.name"
