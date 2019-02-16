@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { CalendarDataHandlerService } from '../../providers/calendar-data-handler.service';
+import { StorageCalendar } from '../../providers/storage-calendar.service';
 import { find, times } from 'lodash';
 import * as moment from 'moment';
 import { combineLatest, Subject } from 'rxjs';
 import { IMonthShort } from '../../shared/calendar.interface';
 import { takeUntil } from 'rxjs/operators';
+import { StorageCalendarKey } from '../../shared/storage-keys.enums';
 
 @Component({
   selector: 'app-calendar-criteria-selector',
@@ -21,15 +22,15 @@ export class CalendarCriteriaSelectorComponent implements OnInit, OnDestroy {
   activeYear: number;
   private onDestroy: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private calendarDataHandlerService: CalendarDataHandlerService,
+  constructor(private storageCalendar: StorageCalendar,
               private changeDetectorRef: ChangeDetectorRef) { }
 
   setMonth(month: IMonthShort) {
-    this.calendarDataHandlerService.setSelectedMonth(month.monthNumberInYear);
+    this.storageCalendar.setToStorage(StorageCalendarKey.SELECTED_MONTH, month.monthNumberInYear);
   }
 
   setYear(year: number) {
-    this.calendarDataHandlerService.setSelectedYear(year);
+    this.storageCalendar.setToStorage(StorageCalendarKey.SELECTED_YEAR, year);
   }
 
   openSelectMonth() {
@@ -43,12 +44,13 @@ export class CalendarCriteriaSelectorComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.years = this.generateYears();
     combineLatest(
-      this.calendarDataHandlerService.getMonthNames(),
-      this.calendarDataHandlerService.getSelectedMonth(),
-      this.calendarDataHandlerService.getSelectedYear(),
+      this.storageCalendar.getFromStorage(StorageCalendarKey.MONTH_NAMES),
+      this.storageCalendar.getFromStorage(StorageCalendarKey.SELECTED_MONTH),
+      this.storageCalendar.getFromStorage(StorageCalendarKey.SELECTED_YEAR),
     )
       .pipe(takeUntil(this.onDestroy))
       .subscribe(([monthsNames, activeMonth, activeYear]: [IMonthShort[], number, number]) => {
+        console.log([monthsNames, activeMonth, activeYear])
         this.monthsNames = monthsNames;
         this.activeYear = activeYear;
         this.activeMonth = find(monthsNames, {monthNumberInYear: activeMonth});

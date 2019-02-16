@@ -1,11 +1,6 @@
 <mat-card class="calendar-card">
   <app-filter [filters]="filters"
               [isSubmitDisplayed]="false"></app-filter>
-  <button (click)="displayCalendar = !displayCalendar">Toggle</button>
-  <button (click)="setLocale('en')">en</button>
-  <button (click)="setLocale('pl')">pl</button>
-  <button (click)="setLocale('de')">de</button>
-  <button (click)="setLocale('fr')">fr</button>
   <app-smooth-height-animation [trigger]="displayCalendar">
     <app-calendar-content *ngIf="displayCalendar"></app-calendar-content>
   </app-smooth-height-animation>

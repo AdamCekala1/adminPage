@@ -1,7 +1,16 @@
 <div class="wrapper">
   <app-sidebar class="sidebar-container"></app-sidebar>
   <div>
-    <router-outlet></router-outlet>
+    <button (click)="displayCalendar = !displayCalendar">Toggle</button>
+    <button (click)="changeDataSet()">change data set</button>
+    <button (click)="setLocale('en')">en</button>
+    <button (click)="setLocale('pl')">pl</button>
+    <button (click)="setLocale('de')">de</button>
+    <button (click)="setLocale('fr')">fr</button>
+    <!--<router-outlet></router-outlet>-->
+    <app-calendar [dataSet]="mockUserValue"
+                  [language]="lang"
+                  [displayCalendar]="displayCalendar"></app-calendar>
   </div>
 </div>
 

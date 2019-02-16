@@ -3,7 +3,7 @@
        (click)="openSelectMonth()">
     <div class="">
       <input type="text"
-             [value]="activeMonth.name"
+             [value]="activeMonth?.name"
              class="calendar-filter-input"
              [readonly]="true">
       <mat-select #selectMonth

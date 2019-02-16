@@ -3,6 +3,9 @@ import { get, set } from 'lodash';
 
 import { FilterType } from '../filter/shared/filter-type.enum';
 import { LanguageService } from './providers/language.service';
+import { StorageCalendar } from './providers/storage-calendar.service';
+import { IUserDataInput } from './shared/calendar.interface';
+import { StorageCalendarKey } from './shared/storage-keys.enums';
 
 @Component({
   selector: 'app-calendar',
@@ -13,18 +16,17 @@ export class CalendarComponent {
   @Input('language') set setLanguage(language: string) {
     this.languageService.setLanguage(language);
   }
+  @Input('dataSet') set setDataSet(dataSet: IUserDataInput[]) {
+    this.storageCalendar.setToStorage(StorageCalendarKey.DATA_SET, dataSet);
+  }
+  @Input('activeSet') set setActiveSet(activeSet: number) {
+    this.storageCalendar.setToStorage(StorageCalendarKey.SELECTED_DATA_SET, activeSet)
+  }
+  @Input() displayCalendar: boolean = true;
   filters = filtrMock;
-  displayCalendar: boolean = true;
 
-  constructor(private languageService: LanguageService) {
-  }
-
-  toggleDisplaySection() {
-    this.displayCalendar = !this.displayCalendar;
-  }
-
-  setLocale(value) {
-    this.languageService.setLanguage(value)
+  constructor(private languageService: LanguageService,
+              private storageCalendar: StorageCalendar) {
   }
 }
 

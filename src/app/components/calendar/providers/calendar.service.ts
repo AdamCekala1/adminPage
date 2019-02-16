@@ -3,10 +3,10 @@ import { clone, cloneDeep, get, isEqual, isEmpty, filter, findIndex, forEach, ma
 import * as moment from 'moment';
 import { CALENDARCONSTANTS } from '../calendar.contants';
 import { MemoizeObject } from 'memoize-object-decorator';
-import { CalendarDataHandlerService } from './calendar-data-handler.service';
+import { StorageCalendar } from './storage-calendar.service';
 import { LanguageService } from './language.service';
 import { combineLatest } from 'rxjs';
-import { debounceTime, distinctUntilChanged, tap } from 'rxjs/operators';
+import { debounceTime, tap } from 'rxjs/operators';
 import {
   IDay,
   IMapDays,
@@ -20,21 +20,24 @@ import {
 import { IDictionary } from '../../../shared/interfaces/utilis.interfaces';
 import { SelectDayType } from '../shared/select-day-type.enum';
 import { SelectDayMode } from '../shared/select-day-mode.enum';
+import { UserDataService } from './user-data.service';
+import { StorageCalendarKey } from '../shared/storage-keys.enums';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CalendarService {
-  constructor(private calendarDataHandlerService: CalendarDataHandlerService,
+  constructor(private storageCalendar: StorageCalendar,
+              private userDataService: UserDataService,
               private languageService: LanguageService) {
     combineLatest(
       this.languageService.getLanguage()
         .pipe(tap((language: string) => {
-          this.calendarDataHandlerService.setDaysName(this.getDaysNames(language));
-          this.calendarDataHandlerService.setMonthNames(this.getMonthsNames(language));
+          this.storageCalendar.setToStorage(StorageCalendarKey.DAYS_NAMES, this.getDaysNames(language));
+          this.storageCalendar.setToStorage(StorageCalendarKey.MONTH_NAMES, this.getMonthsNames(language));
         })),
-      this.calendarDataHandlerService.getSelectedYear(),
-      this.calendarDataHandlerService.getSelectedMonth(),
+      this.storageCalendar.getFromStorage(StorageCalendarKey.SELECTED_YEAR),
+      this.storageCalendar.getFromStorage(StorageCalendarKey.SELECTED_MONTH),
     ).pipe(debounceTime(200))
       .subscribe(([language, actualYear, actualMonth]: [string, number, number]) => {
         const month: IMonth = this.mapMonths({
@@ -43,13 +46,13 @@ export class CalendarService {
           language,
         });
 
-        this.calendarDataHandlerService.addMonthToYear(month);
-        this.calendarDataHandlerService.setCurrentMonth(month);
+        this.storageCalendar.addMonthToYear(month);
+        this.storageCalendar.setToStorage(StorageCalendarKey.CURRENT_MONTH, month);
       });
 
     combineLatest(
-      this.calendarDataHandlerService.getCurrentMonth(),
-      this.calendarDataHandlerService.getUserData(),
+      this.storageCalendar.getFromStorage(StorageCalendarKey.CURRENT_MONTH),
+      this.storageCalendar.getFromStorage(StorageCalendarKey.USER_INPUT_DATA),
     )
       .subscribe(([month]: [IMonth, IUserDataInput]) => {
         if(month) {
@@ -97,7 +100,7 @@ export class CalendarService {
     mergedCalendarWithData = this.getUpdatedMonth(mergedCalendarWithData, false, true);
     mergedCalendarWithData = this.getUpdatedMonth(mergedCalendarWithData);
 
-    this.calendarDataHandlerService.setCurrentMonthWithValues(mergedCalendarWithData);
+    this.storageCalendar.setToStorage(StorageCalendarKey.CURRENT_MONTH_WITH_VALUES, mergedCalendarWithData);
   }
 
   @MemoizeObject()
@@ -288,7 +291,7 @@ export class CalendarService {
     const monthNumber: number = shouldGetDateFromDays ? days[0].date.month : month.monthNumberInYear;
     const year: number = shouldGetDateFromDays ? days[0].date.year : month.year;
     const userDataForAfterMonth: IDictionary<IUserDataDay>
-      = this.calendarDataHandlerService.getUserDataValueByMonthAndYear(year, monthNumber);
+      = this.userDataService.getUserDataValueByMonthAndYear(year, monthNumber);
 
     if (!isEmpty(userDataForAfterMonth)) {
       return this.getUpdatedCalendarWithUserData(month, userDataForAfterMonth, monthNumber, year);

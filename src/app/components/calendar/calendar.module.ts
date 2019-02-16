@@ -19,6 +19,9 @@ import { CalendarCriteriaSelectorComponent } from './calendar-content/calendar-c
     CalendarComponent,
     CalendarContentComponent,
     CalendarCriteriaSelectorComponent
+  ],
+  exports: [
+    CalendarComponent,
   ]
 })
 export class CalendarModule { }

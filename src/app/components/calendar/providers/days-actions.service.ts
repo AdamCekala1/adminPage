@@ -1,29 +1,30 @@
 import { Injectable } from '@angular/core';
-import { cloneDeep, get, merge } from 'lodash';
-import { CalendarDataHandlerService } from './calendar-data-handler.service';
+import { get, merge } from 'lodash';
+import { StorageCalendar } from './storage-calendar.service';
 import { IDay, ISelectedDays } from '../shared/calendar.interface';
 import { SelectDayType } from '../shared/select-day-type.enum';
 import { SelectDayMode } from '../shared/select-day-mode.enum';
 import { MemoizeObject } from 'memoize-object-decorator';
+import { StorageCalendarKey } from '../shared/storage-keys.enums';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CalendarDaysActionsService {
+export class DaysActionsService {
 
-  constructor(private calendarDataHandlerService: CalendarDataHandlerService) {
+  constructor(private storageCalendar: StorageCalendar) {
   }
 
   setActiveDay(day: IDay) {
-    const selectedRange: ISelectedDays = cloneDeep(this.calendarDataHandlerService.getRangedDaysValue()) || {};
-    const mode: SelectDayMode = this.calendarDataHandlerService.getSelectDayMode();
+    const selectedRange: ISelectedDays = this.storageCalendar.getValueFromStorage(StorageCalendarKey.RANGE_DAYS) || {};
+    const mode: SelectDayMode = this.storageCalendar.getValueFromStorage(StorageCalendarKey.SELECT_DAY_MODE);
     const newSelectedRange: ISelectedDays = this.getSelectedRange(day, selectedRange, mode);
 
-    this.calendarDataHandlerService.setRangedDays(newSelectedRange);
+    this.storageCalendar.setToStorage(StorageCalendarKey.RANGE_DAYS, newSelectedRange);
 
     if (day.isPrev || day.isAfter) {
-      this.calendarDataHandlerService.setSelectedYear(day.date.year);
-      this.calendarDataHandlerService.setSelectedMonth(day.date.month);
+      this.storageCalendar.setToStorage(StorageCalendarKey.SELECTED_YEAR, day.date.year);
+      this.storageCalendar.setToStorage(StorageCalendarKey.SELECTED_MONTH, day.date.month);
     }
   }
 
