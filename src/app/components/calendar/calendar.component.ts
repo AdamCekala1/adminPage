@@ -20,7 +20,7 @@ export class CalendarComponent {
     this.storageCalendar.setToStorage(StorageCalendarKey.DATA_SET, dataSet);
   }
   @Input('activeSet') set setActiveSet(activeSet: number) {
-    this.storageCalendar.setToStorage(StorageCalendarKey.SELECTED_DATA_SET, activeSet)
+    this.storageCalendar.setToStorage(StorageCalendarKey.SELECTED_DATA_SET, activeSet);
   }
   @Input() displayCalendar: boolean = true;
   filters = filtrMock;

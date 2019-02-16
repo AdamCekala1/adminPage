@@ -1,14 +1,13 @@
 import { Injectable } from '@angular/core';
-import { IDictionary } from '../../../shared/interfaces/utilis.interfaces';
 import * as moment from 'moment';
 import { clone, cloneDeep, isNumber, find, findIndex, get, merge, set } from 'lodash';
 import { BehaviorSubject } from 'rxjs';
+
+import { IDictionary } from '../../../shared/interfaces/utilis.interfaces';
 import { IMonth } from '../shared/calendar.interface';
 import { SelectDayMode } from '../shared/select-day-mode.enum';
 import { IStorageCalendar } from '../shared/storage.interface';
 import { StorageCalendarKey } from '../shared/storage-keys.enums';
-
-// TODO: create storage, reduce lineis of code
 
 @Injectable({
   providedIn: 'root'

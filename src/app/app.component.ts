@@ -16,6 +16,7 @@ export class AppComponent {
   mockUserValue: IUserDataInput[] = mockUserValue;
   displayCalendar: boolean = true;
   lang: string = 'en';
+  activeSet: number = 0;
 
   constructor(private storageCalendar: StorageCalendar) {
   }
@@ -27,7 +28,7 @@ export class AppComponent {
   changeDataSet() {
     const selectedDataSet: number = this.storageCalendar.getValueFromStorage(StorageCalendarKey.SELECTED_DATA_SET);
 
-    this.storageCalendar.setToStorage(StorageCalendarKey.SELECTED_DATA_SET, selectedDataSet === 0 ? 1 : 0);
+    this.activeSet =  selectedDataSet === 0 ? 1 : 0;
   }
 }
 
