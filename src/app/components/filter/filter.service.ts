@@ -26,10 +26,7 @@ export class FilterService {
       const control: AbstractControl = form.get(filter.name);
 
       if(control) {
-        if (filter.value) {
-          control.setValue(filter.value);
-        }
-
+        control.setValue(filter.value || '');
         control.clearValidators();
         control.setValidators(this.getControlValidators(filter));
       } else {

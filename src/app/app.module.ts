@@ -10,6 +10,8 @@ import {routes} from './app.routing';
 import {CalculatorCaloriesModule} from './components/calculator-calories/calculator-calories.module';
 import { CalendarModule } from './components/calendar/calendar.module';
 import { FilterModule } from './components/filter/filter.module';
+import { MatCardModule } from '@angular/material';
+import { HomeModule } from './components/home/home.module';
 
 
 @NgModule({
@@ -18,8 +20,10 @@ import { FilterModule } from './components/filter/filter.module';
   ],
   imports: [
     BrowserModule,
+    MatCardModule,
     CalendarModule,
     FilterModule,
+    HomeModule,
     CalculatorCaloriesModule,
     RouterModule.forRoot(routes),
     CoreModule,

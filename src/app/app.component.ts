@@ -104,16 +104,16 @@ const mockUserValue = [
           title: 'some sadasd',
         },
         26: {
-          values: [{color: 'red', value: 'lorem ipsum ect'}, {color: 'blue', value: 'jakis przyklad'}],
+          values: [{color: 'brown', value: 'lorem ipsum ect'}, {color: 'brown', value: 'jakis przyklad'}],
         },
       },
       2: {
         1: {
           title: 'some title',
-          values: [{color: 'blue', value: 'jakis test'}],
+          values: [{color: 'brown', value: 'jakis brown'}],
         },
         2: {
-          values: [{color: 'red', value: 'lorem ipsum ect'}, {color: 'blue', value: 'jakis przyklad'}],
+          values: [{color: 'brown', value: 'brown ipsum ect'}, {color: 'blue', value: 'brown przyklad'}],
         },
       },
     }

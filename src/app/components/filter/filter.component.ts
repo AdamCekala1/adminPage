@@ -12,7 +12,6 @@ import { IDictionary } from '../../shared/interfaces/utilis.interfaces';
 })
 export class FilterComponent {
   @Input('filters') set setFilters(filters: IFilter[]) {
-    console.log('filters', filters)
     if(this.form) {
       this.updateForm(filters);
     } else {
@@ -29,9 +28,9 @@ export class FilterComponent {
   constructor(private filterService: FilterService, private formBuilder: FormBuilder) { }
 
   handleActiveInput(filter: IFilter) {
-    // this.activeFilterName = filter.name;
-
-    this.onActiveInput.emit(filter);
+    if(!filter.disabled) {
+      this.onActiveInput.emit(filter);
+    }
   }
 
   submit() {

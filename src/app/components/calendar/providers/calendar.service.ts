@@ -64,29 +64,14 @@ export class CalendarService {
   getDaysWithSelectedFlags(selected: ISelectedDays, days: IDay[], dataSet: number, mode?: SelectDayMode): IDay[] {
     const foundDates: {index: string, type: SelectDayType}[] = [];
 
-    forEach(selected, (value: IDay, type: SelectDayType) => {
-      const foundDayIndex: number = findIndex(days, {index: value.index, isActive: false});
-      const foundFalsyActiveDayIndex: number = findIndex(days, (day: IDay) => {
-        return day.isActive && day.selectDayType === type && day.index !== value.index;
-      });
+    if(selected[SelectDayType.START] || selected[SelectDayType.END]) {
+      const selectedDayStart: string = get(selected, `[${SelectDayType.START}].index`);
+      const selectedDayEnd: string = get(selected, `[${SelectDayType.END}].index`);
 
-      if(foundDayIndex > -1) {
-        days[foundDayIndex].isActive = true;
-        days[foundDayIndex].selectDayType = type;
-        foundDates.push({index: value.index, type});
-      }
-
-      if(foundFalsyActiveDayIndex > -1) {
-        days[foundFalsyActiveDayIndex].isActive = false;
-        days[foundFalsyActiveDayIndex].selectDayType = null;
-      }
-    });
-
-    if(selected[SelectDayType.START]) {
       return map(days, (day: IDay) => {
-        day.isDisabled =  dataSet !== 0 && mode === SelectDayMode.HALF_DOUBLE && day.index < selected[SelectDayType.START].index;
-        day.isInRange = selected[SelectDayType.END] && day.index > selected[SelectDayType.START].index
-          && day.index < selected[SelectDayType.END].index;
+        day.isActive = day.index === selectedDayStart || day.index === selectedDayEnd;
+        day.isDisabled =  dataSet !== 0 && selectedDayStart && mode === SelectDayMode.HALF_DOUBLE && day.index < selectedDayStart;
+        day.isInRange = selectedDayStart && selectedDayEnd && day.index >= selectedDayStart && day.index <= selectedDayEnd;
 
         return day;
       });

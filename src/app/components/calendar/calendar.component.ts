@@ -1,12 +1,13 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { clone, cloneDeep, findIndex, get, isEqual, set, toNumber } from 'lodash';
+import { clone, cloneDeep, findIndex, get, isEqual, set, toNumber, map } from 'lodash';
+import { Bind } from 'lodash-decorators';
 import { switchMap, takeUntil } from 'rxjs/operators';
 import { of, Subject } from 'rxjs';
 
 import { FilterType } from '../filter/shared/filter-type.enum';
 import { LanguageService } from './providers/language.service';
 import { StorageCalendar } from './providers/storage-calendar.service';
-import { ISelectedDays, IUserDataInput } from './shared/calendar.interface';
+import { IDay, ISelectedDays, IUserDataInput } from './shared/calendar.interface';
 import { StorageCalendarKey } from './shared/storage-keys.enums';
 import { IFilter } from '../filter/shared/filter.interface';
 import { SelectDayMode } from './shared/select-day-mode.enum';
@@ -37,6 +38,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   @Input() displayCalendar: boolean = true;
   @Input() displayFilters: boolean = true;
+  @Input() canSelectSecondDateWithoutFirst: boolean = true;
   @Input('activeInput') activeFilter: string | CalendarFilterNames = CalendarFilterNames.STARD.toString();
   filters: IFilter[] = filtrMock;
   activeMode: SelectDayMode;
@@ -56,37 +58,38 @@ export class CalendarComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.storageCalendar.getFromStorage(StorageCalendarKey.SELECT_DAY_MODE)
       .pipe(takeUntil(this.onDestroy), switchMap((mode: SelectDayMode) => {
-        if (mode === SelectDayMode.HALF_DOUBLE) {
-          return this.storageCalendar.getFromStorage(StorageCalendarKey.RANGE_DAYS);
-        }
-
-        return of(null);
-      })).subscribe((range: ISelectedDays) => {
-        if (range) {
-          if(this.filters[this.activeFilter] && range[this.activeFilter]) {
-            const filters: IFilter[] = cloneDeep(this.filters);
-            const filter: IFilter = this.filters[this.activeFilter];
-
-            filter.value = range[this.activeFilter].formatted;
-
-            filters[this.activeFilter] = filter;
-            this.filters = filters;
-          }
-
-          if (get(this.range, 'start.index') !== range[SelectDayType.START].index) {
-            this.activeFilter = CalendarFilterNames.END;
-            this.storageCalendar.setToStorage(StorageCalendarKey.SELECTED_DATA_SET, toNumber(CalendarFilterNames.END));
-          }
-
-          this.range = cloneDeep(range);
-        }
-    });
+        return mode === SelectDayMode.HALF_DOUBLE ? this.storageCalendar.getFromStorage(StorageCalendarKey.RANGE_DAYS) : of(null);
+      })).subscribe(this.handleHalfDoubleBehaviours);
   }
 
   ngOnDestroy() {
     this.onDestroy.next();
     this.onDestroy.complete();
     this.onDestroy.unsubscribe();
+  }
+
+  @Bind()
+  private handleHalfDoubleBehaviours(range: ISelectedDays) {
+    if (range) {
+      this.filters = map(cloneDeep(this.filters), (filter: IFilter, key: number) => {
+        const rangedDay: IDay = get(range, `[${key}]`);
+
+        filter.value = rangedDay ? rangedDay.formatted : '';
+
+        if(key === 1 && !this.canSelectSecondDateWithoutFirst) { // second dataset
+          filter.disabled = !get(range, `[${SelectDayType.START}]`);
+        }
+
+        return filter;
+      });
+
+      if (get(this.range, `[${[SelectDayType.START]}].index`) !== get(range, `[${[SelectDayType.START]}].index`)) {
+        this.activeFilter = CalendarFilterNames.END.toString();
+        this.storageCalendar.setToStorage(StorageCalendarKey.SELECTED_DATA_SET, toNumber(CalendarFilterNames.END));
+      }
+
+      this.range = cloneDeep(range);
+    }
   }
 }
 

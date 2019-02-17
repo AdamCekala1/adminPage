@@ -1,0 +1,9 @@
+<div *ngIf="imgName"
+     class="img-wrapper">
+  <div class="img"
+       [ngClass]="extraClasses"
+       [style.background-image]="'url('+ './assets/'+imgName+')'">
+  </div>
+  <div class="img-wrapper-shadow"
+       [style.backgroundColor]="backgroundColor"></div>
+</div>

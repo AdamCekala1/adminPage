@@ -1,18 +1,20 @@
-<div class="wrapper">
-  <app-sidebar class="sidebar-container"></app-sidebar>
-  <div>
-    <button (click)="displayCalendar = !displayCalendar">Toggle</button>
-    <button (click)="changeDataSet()">change data set</button>
-    <button (click)="setLocale('en')">en</button>
-    <button (click)="setLocale('pl')">pl</button>
-    <button (click)="setLocale('de')">de</button>
-    <button (click)="setLocale('fr')">fr</button>
-    <!--<router-outlet></router-outlet>-->
-    <app-calendar [dataSet]="mockUserValue"
-                  [language]="lang"
-                  [calendarMode]="selectDayMode.HALF_DOUBLE"
-                  [activeSet]="activeSet"
-                  [displayCalendar]="displayCalendar"></app-calendar>
-  </div>
-</div>
-
+<app-home></app-home>
+<!--<div class="wrapper">-->
+  <!--<app-sidebar class="sidebar-container"></app-sidebar>-->
+  <!--<div>-->
+    <!--<mat-card class="calendar-card space-20">-->
+      <!--<button (click)="displayCalendar = !displayCalendar">Toggle</button>-->
+      <!--<button (click)="changeDataSet()">change data set</button>-->
+      <!--<button (click)="setLocale('en')">en</button>-->
+      <!--<button (click)="setLocale('pl')">pl</button>-->
+      <!--<button (click)="setLocale('de')">de</button>-->
+      <!--<button (click)="setLocale('fr')">fr</button>-->
+      <!--&lt;!&ndash;<router-outlet></router-outlet>&ndash;&gt;-->
+      <!--<app-calendar [dataSet]="mockUserValue"-->
+                    <!--[language]="lang"-->
+                    <!--[calendarMode]="selectDayMode.HALF_DOUBLE"-->
+                    <!--[activeSet]="activeSet"-->
+                    <!--[displayCalendar]="displayCalendar"></app-calendar>-->
+    <!--</mat-card>-->
+  <!--</div>-->
+<!--</div>-->

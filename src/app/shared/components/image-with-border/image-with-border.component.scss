@@ -1,0 +1,46 @@
+$margin: 5%;
+
+:host {
+  position: relative;
+  //
+  //&:hover {
+  //  .img-wrapper-shadow {
+  //    transform: rotateY(33deg);
+  //  }
+  //
+  //  .img {
+  //    transform: rotateY(-33deg) translateY(-$margin);
+  //  }
+  //}
+}
+
+.img {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  transition: all 300ms;
+
+  &-wrapper {
+    perspective: 100vw;
+    position:absolute;
+    height: 100%;
+    width: 100%;
+    z-index:1;
+  }
+
+  &-wrapper-shadow {
+    position: absolute;
+    bottom: -20px;
+    left: -20px;
+    z-index: -1;
+
+    width: 100%;
+    height: 100%;
+    content:'';
+    transition: all 300ms;
+  }
+}

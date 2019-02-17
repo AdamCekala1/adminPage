@@ -11,15 +11,14 @@ import { StorageCalendarKey } from '../shared/storage-keys.enums';
   providedIn: 'root'
 })
 export class DaysActionsService {
-
   constructor(private storageCalendar: StorageCalendar) {
   }
 
   setActiveDay(day: IDay) {
     const selectedRange: ISelectedDays = this.storageCalendar.getValueFromStorage(StorageCalendarKey.RANGE_DAYS) || {};
     const mode: SelectDayMode = this.storageCalendar.getValueFromStorage(StorageCalendarKey.SELECT_DAY_MODE);
-    const shouldSelectFirstDate: boolean = this.storageCalendar.getValueFromStorage(StorageCalendarKey.SELECTED_DATA_SET) === 0;
-    const newSelectedRange: ISelectedDays = this.getSelectedRange(day, selectedRange, mode, shouldSelectFirstDate);
+    const selectedDataSet: number = this.storageCalendar.getValueFromStorage(StorageCalendarKey.SELECTED_DATA_SET);
+    const newSelectedRange: ISelectedDays = this.getSelectedRange(day, selectedRange, mode, selectedDataSet);
 
     this.storageCalendar.setToStorage(StorageCalendarKey.RANGE_DAYS, newSelectedRange);
 
@@ -30,31 +29,53 @@ export class DaysActionsService {
   }
 
   @MemoizeObject()
-  private getSelectedRange(day: IDay, selectedRange: ISelectedDays, mode: SelectDayMode, shouldSelectFirstDate: boolean): ISelectedDays {
-    if (!get(selectedRange, SelectDayType.START) || mode === SelectDayMode.SINGLE || shouldSelectFirstDate) {
+  private getSelectedRange(day: IDay, selectedRange: ISelectedDays, mode: SelectDayMode, selectedDataSet: number): ISelectedDays {
+    if (mode === SelectDayMode.SINGLE) {
       day.selectDayType = SelectDayType.START;
       selectedRange[SelectDayType.START] = day;
-    } else {
-      if(mode === SelectDayMode.HALF_DOUBLE) {
-        if (day.index > selectedRange[SelectDayType.START].index) {
+    } else if (mode === SelectDayMode.HALF_DOUBLE) {
+      return this.halfDoubleHandle(day, selectedRange, selectedDataSet);
+    } else if (mode === SelectDayMode.DOUBLE) {
+      return this.douboleModeHandle(day, selectedRange);
+    }
 
-          day.selectDayType = SelectDayType.END;
-          selectedRange[SelectDayType.END] = day;
-        }
-      } else if(mode === SelectDayMode.DOUBLE) {
-        if(!selectedRange[SelectDayType.END] && day.index < selectedRange[SelectDayType.START].index) {
-          day.selectDayType = SelectDayType.START;
-          selectedRange[SelectDayType.END] = selectedRange[SelectDayType.START];
-          selectedRange[SelectDayType.START] = day;
-        } else if (day.index > selectedRange[SelectDayType.START].index) {
+    return selectedRange;
+  }
 
-          day.selectDayType = SelectDayType.END;
-          selectedRange[SelectDayType.END] = day;
-        } else {
-          day.selectDayType = SelectDayType.START;
-          selectedRange[SelectDayType.START] = day;
-        }
+  @MemoizeObject()
+  private halfDoubleHandle(day: IDay, selectedRange: ISelectedDays, selectedDataSet: number): ISelectedDays {
+    if (selectedDataSet === 0) {
+      day.selectDayType = SelectDayType.START;
+
+      if (day.index > get(selectedRange, `[${SelectDayType.END}].index`)) {
+        delete selectedRange[SelectDayType.END];
       }
+
+      selectedRange[SelectDayType.START] = day;
+    } else if (selectedDataSet === 1) {
+
+      day.selectDayType = SelectDayType.END;
+      selectedRange[SelectDayType.END] = day;
+    }
+    return selectedRange;
+  }
+
+  @MemoizeObject()
+  private douboleModeHandle(day: IDay, selectedRange: ISelectedDays): ISelectedDays {
+    if (!selectedRange[SelectDayType.START]) {
+      day.selectDayType = SelectDayType.START;
+      selectedRange[SelectDayType.START] = day;
+    } else if (!selectedRange[SelectDayType.END] && day.index < selectedRange[SelectDayType.START].index) {
+      day.selectDayType = SelectDayType.START;
+      selectedRange[SelectDayType.END] = selectedRange[SelectDayType.START];
+      selectedRange[SelectDayType.START] = day;
+    } else if (day.index > selectedRange[SelectDayType.START].index) {
+
+      day.selectDayType = SelectDayType.END;
+      selectedRange[SelectDayType.END] = day;
+    } else {
+      day.selectDayType = SelectDayType.START;
+      selectedRange[SelectDayType.START] = day;
     }
 
     return selectedRange;

@@ -14,6 +14,7 @@ import {
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CdkTableModule} from "@angular/cdk/table";
 import { SmoothHeightAnimationComponent } from './components/smooth-height-animation/smooth-height-animation.component';
+import { ImageWithBorderComponent } from './components/image-with-border/image-with-border.component';
 
 @NgModule({
   imports: [
@@ -61,10 +62,12 @@ import { SmoothHeightAnimationComponent } from './components/smooth-height-anima
     MatGridListModule,
     MatCardModule,
     SmoothHeightAnimationComponent,
+    ImageWithBorderComponent,
   ],
   declarations: [
     InvalidInputDirective,
     SmoothHeightAnimationComponent,
+    ImageWithBorderComponent,
   ]
 })
 export class SharedModule { }

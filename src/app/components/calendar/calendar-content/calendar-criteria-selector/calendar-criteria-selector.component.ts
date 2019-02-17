@@ -50,7 +50,6 @@ export class CalendarCriteriaSelectorComponent implements OnInit, OnDestroy {
     )
       .pipe(takeUntil(this.onDestroy))
       .subscribe(([monthsNames, activeMonth, activeYear]: [IMonthShort[], number, number]) => {
-        console.log([monthsNames, activeMonth, activeYear])
         this.monthsNames = monthsNames;
         this.activeYear = activeYear;
         this.activeMonth = find(monthsNames, {monthNumberInYear: activeMonth});

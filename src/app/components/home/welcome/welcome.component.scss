@@ -1,0 +1,50 @@
+@import "../../../styles/config";
+
+$color-border: $color-select;
+
+$padding-left-header: 25px;
+$sub-header-line-width: 150px;
+
+.welcome {
+  &-img {
+    margin-left: 10vw;
+    margin-top: 15vh;
+    display: block;
+    width: 43vw;
+    height: 70vh;
+  }
+
+  &-header {
+    position: absolute;
+    top: 35vh;
+    left: 45vw;
+    width: 55vw;
+    transform: translateY(-50%);
+    z-index: 20;
+
+    &-main {
+      font-size: 60px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      color: #130f40;
+    }
+
+    &-sub {
+      font-size: 22px;
+      width: 300px;
+      font-weight: 300;
+      position: relative;
+      padding-left: calc(#{$sub-header-line-width} + #{$padding-left-header});
+    }
+
+    &-sub::before {
+      content: '';
+      position: absolute;
+      width: $sub-header-line-width;
+      height: 3px;
+      left: 0;
+      top: 10px;
+      background: $color-border;
+    }
+  }
+}
