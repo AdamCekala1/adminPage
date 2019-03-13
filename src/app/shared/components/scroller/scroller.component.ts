@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 
+import { UtilsService } from '../../../core/providers/utils/utils.service';
+
 @Component({
   selector: 'app-scroller',
   templateUrl: './scroller.component.html',
@@ -10,10 +12,6 @@ export class ScrollerComponent {
   @Input() elementId: string = 'about-me';
 
   scroll() {
-    const element: HTMLElement = document.getElementById(this.elementId);
-
-    if(element) {
-      element.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
-    }
+    UtilsService.scroll(this.elementId);
   }
 }

@@ -2,8 +2,16 @@ import { Injectable } from '@angular/core';
 import { filter, findIndex, forEach, isNaN } from 'lodash';
 import { AbstractControl } from '@angular/forms';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class UtilsService {
+  static scroll(elementId: string) {
+    const element: HTMLElement = document.getElementById(elementId);
+
+    if(element) {
+      element.scrollIntoView({behavior: 'smooth', block: 'start', inline: 'nearest'});
+    }
+  }
+
   enumToKeysArray(userEnum): string[] {
     const result: string[] = [];
 

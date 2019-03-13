@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Calories, UserDetails, UserTrainings} from "../../../components/calculator-calories/calculator-calories.interface";
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class LocalStorageService {
   static setUserDetails(value: UserDetails) {
     localStorage.setItem('currentUser', JSON.stringify(value));

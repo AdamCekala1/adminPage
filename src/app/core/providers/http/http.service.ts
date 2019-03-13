@@ -9,7 +9,7 @@ import { HttpResponse } from './http.interface';
 import { requestTypes } from './http.enum';
 // import { SpinnerService } from '../spinner/spinner.service';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class HttpService {
     // constructor(
     //     // private alertService: AlertService,

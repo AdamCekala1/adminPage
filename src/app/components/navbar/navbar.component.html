@@ -52,3 +52,30 @@
         <!--</div>-->
     <!--</div>-->
 <!--</nav>-->
+
+<nav class="nav"
+     [class.nav-on-top]="isOnTop">
+  <div class="nav-container">
+    <div class="nav-logo">
+      jakies logo
+    </div>
+    <div class="nav-menu">
+      <ul>
+        <li *ngFor="let menuItem of menu"
+            (click)="redirectTo(menuItem.id)">{{menuItem.key}}</li>
+      </ul>
+    </div>
+    <div class="nav-social">
+      <ul>
+        <li>fb</li>
+        <li>git</li>
+      </ul>
+    </div>
+    <div class="nav-config">
+      <ul>
+        <li>config 1</li>
+        <li>config 2</li>
+      </ul>
+    </div>
+  </div>
+</nav>

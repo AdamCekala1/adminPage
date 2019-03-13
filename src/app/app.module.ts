@@ -25,7 +25,7 @@ import { HomeModule } from './components/home/home.module';
     FilterModule,
     HomeModule,
     CalculatorCaloriesModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes,  { useHash: true }),
     CoreModule,
     ComponentsModule
   ],

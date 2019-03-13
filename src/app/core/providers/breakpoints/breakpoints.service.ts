@@ -4,7 +4,7 @@ import { MediaChange, ObservableMedia } from '@angular/flex-layout';
 
 import { widtBreakpoints } from '../../../shared/enums/width-breakpoints.enum';
 
-@Injectable()
+@Injectable({providedIn: 'root'})
 export class BreakpointsService {
   private widthName: BehaviorSubject<string> = new BehaviorSubject('');
 
