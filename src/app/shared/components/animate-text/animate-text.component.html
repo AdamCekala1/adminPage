@@ -1,0 +1,10 @@
+<!--<ng-container [@listAnimation]="values.length">-->
+  <!--<ng-container *ngFor="let singleValue of values">-->
+    <!--{{singleValue}}-->
+  <!--</ng-container>-->
+<!--</ng-container>-->
+<div [@listAnimation]="values.length">
+  <span *ngFor="let singleValue of values">
+    {{ singleValue }}
+  </span>
+</div>

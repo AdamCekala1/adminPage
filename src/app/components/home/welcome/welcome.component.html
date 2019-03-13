@@ -1,13 +1,16 @@
-<div class="welcome-header">
-  <h1 class="welcome-header-main">
-    Lorem Ipsum is simply dummy text of.
-  </h1>
-  <h3 class="welcome-header-sub">
-    Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-  </h3>
+<div class="welcome-wrapper">
+  <div class="welcome-img"
+       [style.background-image]="'url('+ './assets/'+imgName+')'">
+    <div class="welcome-container">
+      <div class="welcome-header">
+        <h1 class="welcome-header-main">
+          Hey There! <br/>
+          I'm
+          <span class="welcome-header-name">Adam Cekała</span>  <br/>
+          Based In Gdańsk
+        </h1>
+      </div>
+    </div>
+  <app-scroller [text]="'scroll to about me :)'"
+                [elementId]="'about-me'"></app-scroller>
 </div>
-
-<app-image-with-border class="welcome-img"
-                       [backgroundColor]="'#130f40'"
-                       [imgName]="'home-welcome.jpg'"></app-image-with-border>
-

@@ -15,6 +15,8 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {CdkTableModule} from "@angular/cdk/table";
 import { SmoothHeightAnimationComponent } from './components/smooth-height-animation/smooth-height-animation.component';
 import { ImageWithBorderComponent } from './components/image-with-border/image-with-border.component';
+import { AnimateTextComponent } from './components/animate-text/animate-text.component';
+import { ScrollerComponent } from './components/scroller/scroller.component';
 
 @NgModule({
   imports: [
@@ -63,11 +65,15 @@ import { ImageWithBorderComponent } from './components/image-with-border/image-w
     MatCardModule,
     SmoothHeightAnimationComponent,
     ImageWithBorderComponent,
+    AnimateTextComponent,
+    ScrollerComponent,
   ],
   declarations: [
     InvalidInputDirective,
     SmoothHeightAnimationComponent,
     ImageWithBorderComponent,
+    AnimateTextComponent,
+    ScrollerComponent,
   ]
 })
 export class SharedModule { }

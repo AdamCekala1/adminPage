@@ -1,0 +1,51 @@
+@import "../../../styles/config";
+
+$color-main: $color-select;
+$color-border: $color-select-second;
+
+$padding-left-header: 25px;
+$sub-header-line-width: 150px;
+
+.about-me {
+  &-img {
+    margin-left: 10vw;
+    margin-top: 15vh;
+    display: block;
+    width: 43vw;
+    height: 70vh;
+  }
+
+  &-header {
+    position: absolute;
+    left: 45vw;
+    width: 55vw;
+    max-width: 750px;
+    z-index: 20;
+
+    &-main {
+      font-size: 60px;
+      font-weight: 900;
+      letter-spacing: 4px;
+      color: $color-main;
+      background: rgba(#fdfdfd, 0.4);
+      padding: 30px;
+    }
+
+    &-sub {
+      font-size: 22px;
+      font-weight: 300;
+      position: relative;
+      padding-left: calc(#{$sub-header-line-width} + #{$padding-left-header});
+    }
+
+    &-sub::before {
+      content: '';
+      position: absolute;
+      width: $sub-header-line-width;
+      height: 3px;
+      left: 0;
+      top: 10px;
+      background: $color-main;
+    }
+  }
+}

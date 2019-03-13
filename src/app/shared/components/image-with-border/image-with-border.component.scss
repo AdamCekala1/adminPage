@@ -1,5 +1,9 @@
 $margin: 5%;
 
+
+$bottom: -40px;
+$left: -35px;
+
 :host {
   position: relative;
   //
@@ -22,6 +26,7 @@ $margin: 5%;
   display: inline-block;
   height: 100%;
   width: 100%;
+  z-index: 1;
   transition: all 300ms;
 
   &-wrapper {
@@ -34,13 +39,30 @@ $margin: 5%;
 
   &-wrapper-shadow {
     position: absolute;
-    bottom: -20px;
-    left: -20px;
-    z-index: -1;
-
-    width: 100%;
-    height: 100%;
+    bottom: $bottom;
+    left: $left;
+    z-index: 0;
+    width: 85%;
+    height: 85%;
     content:'';
     transition: all 300ms;
+  }
+
+  &-dot {
+    $foreground: #000;
+    $background: white;
+
+    $size: 1px;
+    $gutter: 12px;
+
+    position: absolute;
+    z-index: -1;
+    width: calc(100% - 4*#{$left});
+    height: 120%;
+    left: 2*$left;
+    top: $bottom;
+    background: ($foreground);
+    background-image: linear-gradient(($background) ($gutter), transparent ($gutter)), linear-gradient(90deg, ($background) ($gutter), transparent ($gutter));
+    background-size: calc(#{$size} + #{$gutter}) calc(#{$size} + #{$gutter});
   }
 }

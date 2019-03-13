@@ -1,0 +1,59 @@
+@import '../../../styles/config';
+
+* {
+  transition: 0.4s ease-in-out;
+}
+
+.scroller {
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, -10%);
+  bottom: 0;
+  z-index: 4;
+  cursor: pointer;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-size: 10px;
+  padding: 0 50px;
+
+  &-middle {
+    text-orientation: mixed;
+    writing-mode: vertical-lr;
+    white-space: nowrap;
+    transform: rotate(180deg);
+  }
+
+  &-bottom {
+    display: block;
+    height: 0;
+    margin-top: 5px;
+    width: 1px;
+    background: #ffffff;
+    margin-left: 6px;
+    text-align: center;
+  }
+
+  &-top {
+    display: block;
+    height: 30px;
+    margin-bottom: 5px;
+    width: 1px;
+    background: #ffffff;
+    margin-left: 6px;
+    text-align: center;
+  }
+
+  &:hover {
+    color: $color-select-second;
+
+    .scroller-top {
+      height: 0;
+    }
+
+    .scroller-bottom {
+      height: 30px;
+      background: $color-select-second;
+    }
+  }
+}
